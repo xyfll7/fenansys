@@ -6,7 +6,7 @@ POST {{host}}/user/test
 Content-Type: application/json
 
 {
-  "test":"测试啊"
+  "test":"测试成功了哈哈"
 }
 
 ###
