@@ -9,6 +9,7 @@ import Dashboard from '@/views/Dashboard'
 
 Vue.use(Router)
 
+// 路由
 export default new Router({
   routes: [
     {
