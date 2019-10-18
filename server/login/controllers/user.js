@@ -12,7 +12,7 @@ const Code = require('../config/code')
 const Test = async ctx => {
   ctx.body = {
     test: ctx.request.body.test,
-    code: '🔙嘛嘛'
+    code: '🔙嘛嘛,呀'
   }
 }
 
