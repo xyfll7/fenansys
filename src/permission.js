@@ -3,6 +3,7 @@ import store from './store'
 import { getToken } from '@/utils/auth'
 import getPageTitle from '@/utils/get-page-title'
 
+// 我就是测试测试
 router.beforeEach(async (to, from, next) => {
   // set page title
   document.title = getPageTitle(to.meta.title)
