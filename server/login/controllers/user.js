@@ -80,6 +80,7 @@ const GetUser = async ctx => {
     ctx.throw(401, err)
   }
 }
+
 module.exports = {
   Register,
   Login,

@@ -13,8 +13,11 @@ export default new Router({
   routes: [
     {
       path: '/',
+      redirect: '/dashboard'
+    },
+    {
+      path: '/login',
       name: 'login',
-      meta: { title: '首页' },
       component: Login,
       redirect: '/signin',
       children: [

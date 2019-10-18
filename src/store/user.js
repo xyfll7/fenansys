@@ -16,6 +16,7 @@ const mutations = {
 }
 
 const actions = {
+  // 仅获取Token
   login({ commit }, userInfo) {
     const { email, password } = userInfo
     return new Promise((resolve, reject) => {
@@ -24,7 +25,6 @@ const actions = {
           if (response.errors || response.email || response.password) {
             reject(response)
           } else {
-            console.log(response)
             commit('SET_TOKEN', response.token) // 这里会覆盖掉getToken()方法，页面刷新以后，如果再从 vuex中获取Token肯定会失败
             setToken(response.token)
             resolve()
