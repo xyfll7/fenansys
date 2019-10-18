@@ -54,7 +54,10 @@ const Login = async ctx => {
 }
 
 const Test = async ctx => {
-  ctx.body = ctx.request.body.test
+  ctx.body = {
+    test: ctx.request.body.test,
+    code: '返回码'
+  }
 }
 
 module.exports = {
