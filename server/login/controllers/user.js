@@ -54,7 +54,7 @@ const Login = async ctx => {
 }
 
 const Test = async ctx => {
-  ctx.body = '测试成功'
+  ctx.body = ctx.request.body.test
 }
 
 module.exports = {

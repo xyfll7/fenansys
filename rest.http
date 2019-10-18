@@ -3,6 +3,11 @@
 
 ###
 POST {{host}}/user/test
+Content-Type: application/json
+
+{
+  "test":"测试啊"
+}
 
 ###
 POST {{host}}/user/login
