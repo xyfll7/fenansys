@@ -1,0 +1,26 @@
+@host=http://localhost:8088/api/v1
+@host=http://106.13.92.185:8088/api/v1
+
+###
+POST {{host}}/user/test
+
+###
+POST {{host}}/user/login
+Content-Type: application/json
+
+{
+    "email": "l.7@qq.com",
+    "password": "yangqi77"
+}
+
+###
+POST {{host}}/user/register
+Content-Type: application/json
+
+{
+    "name": "sssss",
+    "email": "l.77777@qq.com",
+    "password": "yangqi77",
+    "password2": "yangqi77",
+    "avatar":"头像地址"
+}
