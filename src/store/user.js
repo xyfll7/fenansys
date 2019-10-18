@@ -26,7 +26,6 @@ const actions = {
           } else {
             console.log(response)
             commit('SET_TOKEN', response.token) // 这里会覆盖掉getToken()方法，页面刷新以后，如果再从 vuex中获取Token肯定会失败
-            commit('SET_USER', response.user)
             setToken(response.token)
             resolve()
           }

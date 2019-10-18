@@ -1,6 +1,6 @@
 @host=http://localhost:8088/api/v1
-@host=http://106.13.92.185:8088/api/v1
-
+# @host=http://106.13.92.185:8088/api/v1
+@token={{loginAPI.response.body.token}}
 ###
 POST {{host}}/user/test
 Content-Type: application/json
@@ -9,7 +9,12 @@ Content-Type: application/json
   "test":"测试成功了哈哈"
 }
 
-###
+### 根据Token获取用户信息
+GET {{host}}/user/getuser
+Authorization: {{token}}
+
+### 登陆(只能获取Token)
+# @name loginAPI
 POST {{host}}/user/login
 Content-Type: application/json
 
@@ -18,7 +23,7 @@ Content-Type: application/json
     "password": "yangqi77"
 }
 
-###
+### 注册用户
 POST {{host}}/user/register
 Content-Type: application/json
 
