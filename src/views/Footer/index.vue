@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>新绛县人民法院 | 青春追梦网络科技有限公司</p>
+    <p>新绛县人民法院 | 青春追梦网络科技</p>
     <p>2019-2022@copyright</p>
   </div>
 </template>

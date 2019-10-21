@@ -1,10 +1,8 @@
 <template>
   <el-container>
-    <el-header>
-      <NavMenu></NavMenu>
-    </el-header>
+    <NavMenu></NavMenu>
     <router-view></router-view>
-    <el-footer>
+    <el-footer class="centerxy">
       <Footer />
     </el-footer>
   </el-container>
@@ -20,3 +18,6 @@ export default {
   }
 }
 </script>
+<style scoped>
+@import './views.css';
+</style>

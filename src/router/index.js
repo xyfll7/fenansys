@@ -35,12 +35,27 @@ export const constantRoutes = [
   },
   {
     path: '/views',
-    component: () => import('@/views'),
     name: 'views',
-    meta: { title: '首页' }
-    // children: [
-    //   {},
-    // ]
+    meta: { title: '首页' },
+    component: () => import('@/views'),
+    redirect: '/fenansys',
+    children: [
+      {
+        path: '/fenansys',
+        name: 'fenansys',
+        meta: { title: '分案中心' },
+        component: () => import('@/views/apages/FenanSys'),
+        redirect: '/random',
+        children: [
+          {
+            path: '/random',
+            name: 'random',
+            meta: { title: '随机分案' },
+            component: () => import('@/views/apages/FenanSys/Random')
+          }
+        ]
+      }
+    ]
   }
 ]
 
