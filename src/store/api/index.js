@@ -1,8 +1,8 @@
 import axios from 'axios'
 import store from '@/store'
 import { Message, MessageBox } from 'element-ui'
-import { getToken } from './auth'
-import Code from './code'
+import { getToken } from '@/utils/auth'
+import Code from '@/utils/code'
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,

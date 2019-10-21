@@ -60,7 +60,7 @@ export default {
         password: [{ validator: validatePass, trigger: 'blur' }]
       },
       loading: false,
-      redirect: '/dashboard', // ??这个是干什么用的？
+      redirect: '/views', // ??这个是干什么用的？
       email: false, // 点击登陆按钮后，服务器验证email账号不存在
       password: false, // 点击登陆按钮后，服务器验证password错误
       emailMessage: '',

@@ -1,7 +1,7 @@
-import request from '@/utils/request'
+import api from '@/store/api'
 
 export function login(data) {
-  return request({
+  return api({
     url: '/user/login',
     method: 'post',
     data
@@ -9,7 +9,7 @@ export function login(data) {
 }
 
 export function getUserInfo(token) {
-  return request({
+  return api({
     url: '/user/getUserInfo',
     method: 'get',
     headers: { Authorization: token }
@@ -17,7 +17,7 @@ export function getUserInfo(token) {
 }
 
 export function logout() {
-  return request({
+  return api({
     url: '/user/logout',
     method: 'post'
   })

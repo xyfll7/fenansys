@@ -13,7 +13,7 @@
 import NavMenu from '@/views/NavMenu'
 import Footer from '@/views/Footer'
 export default {
-  name: 'Dashboard',
+  name: 'Views',
   components: {
     NavMenu,
     Footer

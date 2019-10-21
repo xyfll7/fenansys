@@ -1,5 +1,5 @@
-import router from './router'
-import store from './store'
+import router from '@/router'
+import store from '@/store'
 import { getToken } from '@/utils/auth'
 import getPageTitle from '@/utils/get-page-title'
 import { Message } from 'element-ui'
@@ -34,10 +34,11 @@ router.beforeEach(async (to, from, next) => {
 
           // generate accessible routes map based on roles
           const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
+
           // dynamically add accessible routes
           router.addRoutes(accessRoutes)
-          // hack method to ensure that addRoutes is complete
 
+          // hack method to ensure that addRoutes is complete
           next({ ...to, replace: true })
         } catch (error) {
           await store.dispatch('user/resetToken')
@@ -64,3 +65,5 @@ router.afterEach(() => {
   // finish progress bar
   NProgress.done()
 })
+
+// 抄完了

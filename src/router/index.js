@@ -11,7 +11,7 @@ Vue.use(Router)
 export const constantRoutes = [
   {
     path: '/',
-    redirect: '/dashboard'
+    redirect: '/views'
   },
   {
     path: '/login',
@@ -34,9 +34,9 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/dashboard',
-    component: () => import('@/views/Dashboard'),
-    name: 'dashboard',
+    path: '/views',
+    component: () => import('@/views'),
+    name: 'views',
     meta: { title: '首页' }
     // children: [
     //   {},

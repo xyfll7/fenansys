@@ -67,3 +67,5 @@ export default {
   mutations,
   actions
 }
+
+// 抄完了

@@ -3,9 +3,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-import './plugins/element.js' // element
+import '@/plugins/element.js' // element
 
-import './permission' // permission control
+import '@/router/permission' // permission control
 
 Vue.config.productionTip = false
 

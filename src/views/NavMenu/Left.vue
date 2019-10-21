@@ -11,7 +11,7 @@ export default {
 </script>
 <style scoped>
 img {
-  content: url('../../assets/fahui.jpeg');
+  content: url('../../assets/fahui.png');
   width: 50px;
   height: 50px;
   margin: 0 20px 0 0;
