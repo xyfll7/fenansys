@@ -11,8 +11,8 @@ const Code = require('../config/code')
  */
 const Test = async ctx => {
   ctx.body = {
-    test: ctx.request.body.test,
-    code: '🔙嘛嘛,呀'
+    client: ctx.request.body.test,
+    server: '🔙嘛嘛,呀'
   }
 }
 
@@ -44,13 +44,19 @@ const Register = async ctx => {
 const Login = async ctx => {
   const { errors, isValid } = validateLoginInput(ctx.request.body)
   if (!isValid) {
-    ctx.body = { errors, code: Code.SUCCESS }
+    ctx.body = {
+      code: Code.SUCCESS,
+      data: { errors }
+    }
     return
   }
   const { email, password } = ctx.request.body
   const [user] = await User.find({ email }) // 获取用户信息
   if (!user) {
-    ctx.body = { email: '用户不存在', code: Code.SUCCESS }
+    ctx.body = {
+      code: Code.SUCCESS,
+      data: { email: '用户不存在' }
+    }
   } else {
     let result = await bcrypt.compareSync(password, user.password)
     if (result) {
@@ -59,9 +65,15 @@ const Login = async ctx => {
         name: user.name
       }
       const token = jwt.sign(payload, config.secretOrKey, { expiresIn: 3600 })
-      ctx.body = { token: 'Bearer ' + token, code: Code.SUCCESS }
+      ctx.body = {
+        code: Code.SUCCESS,
+        data: { token: 'Bearer ' + token }
+      }
     } else {
-      ctx.body = { password: '密码错误!', code: Code.SUCCESS }
+      ctx.body = {
+        code: Code.SUCCESS,
+        data: { password: '密码错误!' }
+      }
     }
   }
 }
@@ -69,21 +81,30 @@ const Login = async ctx => {
 /**
  * 获取用户信息
  */
-const GetUser = async ctx => {
+const GetUserInfo = async ctx => {
   try {
     const raw = ctx.request.header.authorization.split(' ').pop()
     const { id } = jwt.verify(raw, config.secretOrKey)
     const user = await User.findById(id).lean()
     user.password = ''
-    ctx.body = { user, code: Code.SUCCESS }
+    ctx.body = {
+      code: Code.SUCCESS,
+      data: { user }
+    }
   } catch (err) {
-    ctx.throw(401, err)
+    if (err.name === 'TokenExpiredError') {
+      ctx.body = {
+        code: Code.TOKEN_EXPIRES
+      }
+    } else {
+      ctx.throw(401, err)
+    }
   }
 }
 
 module.exports = {
   Register,
   Login,
-  GetUser,
+  GetUserInfo,
   Test
 }

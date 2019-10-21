@@ -7,3 +7,19 @@ export function login(data) {
     data
   })
 }
+
+export function getUserInfo(token) {
+  return request({
+    url: '/user/getUserInfo',
+    method: 'get',
+    headers: { Authorization: token }
+  })
+}
+
+export function logout() {
+  return request({
+    url: '/user/logout',
+    method: 'post'
+  })
+}
+// 抄完

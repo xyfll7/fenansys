@@ -7,7 +7,7 @@ router
   .prefix('/user')
   .post('/login', User.Login)
   .post('/register', User.Register)
-  .get('/getuser', User.GetUser)
+  .get('/getUserInfo', User.GetUserInfo)
   .post('/test', User.Test)
 
 module.exports = router

@@ -13,11 +13,13 @@
       <i class="el-icon-switch-button"></i>
       <p class="popup">退出登陆</p>
     </div>
-    <i class="el-icon-loading"></i>
+    <i class="el-icon-loading" @click="goToLogin"></i>
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex'
+
+import { removeToken } from '@/utils/auth'
 export default {
   name: 'Right',
   data() {
@@ -28,6 +30,11 @@ export default {
   },
   computed: {
     ...mapGetters(['user'])
+  },
+  methods: {
+    goToLogin() {
+      removeToken()
+    }
   }
 }
 </script>
