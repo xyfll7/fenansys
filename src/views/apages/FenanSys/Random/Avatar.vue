@@ -1,7 +1,7 @@
 <template>
   <el-upload
     class="avatar-uploader"
-    action="http://fa.qtranser.cn/api/v1/avatar/avatar"
+    action="http://106.13.92.185/api/v1/avatar/avatar"
     :show-file-list="false"
     :on-success="handleAvatarSuccess"
     :before-upload="beforeAvatarUpload"
