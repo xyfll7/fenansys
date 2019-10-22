@@ -1,4 +1,5 @@
-@host=http://localhost:8088/api/v1
+@host=http://fa.qtranser.cn/api/v1
+@host1=http://fa.qtranser.cn
 @host=http://106.13.92.185:8088/api/v1
 @token={{loginAPI.response.body.token}}
 ###
@@ -8,6 +9,9 @@ Content-Type: application/json
 {
   "test":"测试成功了哈哈"
 }
+
+### 图片服务
+GET {{host1}}/images
 
 ### 根据Token获取用户信息
 GET {{host}}/user/getuser

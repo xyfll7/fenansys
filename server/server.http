@@ -1,4 +1,4 @@
-@host=http://localhost:8089/api/v1
+@host=http://fa.qtranser.cn/api/v1
 # @host=http://106.13.92.185:8089/api/v1
 
 ###
