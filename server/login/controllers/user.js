@@ -2,9 +2,9 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const validateRegisterInput = require('./validation/register')
 const validateLoginInput = require('./validation/login')
-const config = require('../config/config')
+const config = require('../../config')
 const User = require('../modules/user')
-const Code = require('../config/code')
+const Code = require('../../code')
 
 /**
  * 测试

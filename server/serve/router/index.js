@@ -1,5 +1,5 @@
-const user = require('./api/user')
-const Router = require('koa-router')
+const user = require('./api/avatar')
+const Router = require('@koa/router')
 const baseApi = require('../../config').baseApi
 const router = new Router()
 

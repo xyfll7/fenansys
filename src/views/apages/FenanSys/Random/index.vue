@@ -7,7 +7,7 @@
       <JudgesAvatar />
     </el-col>
     <el-col :span="8">
-      <div class="grid-content bg-purple"></div>
+      <Avatar />
     </el-col>
   </el-row>
 </template>
@@ -16,7 +16,8 @@ export default {
   name: 'Random',
   components: {
     TeamNav: () => import('./TeamNav'),
-    JudgesAvatar: () => import('../JudgesAvatar')
+    JudgesAvatar: () => import('../JudgesAvatar'),
+    Avatar: () => import('./Avatar')
   }
 }
 </script>

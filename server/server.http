@@ -1,0 +1,25 @@
+@host=http://localhost:8089/api/v1
+# @host=http://106.13.92.185:8089/api/v1
+
+###
+POST {{host}}/avatar/test
+Content-Type: application/json
+
+{
+  "test":"测试成功了哈哈"
+}
+
+###
+POST {{host}}/avatar/avatar
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryAdPWB9y8gDZKEaVv
+
+Content-Disposition: form-data; name="imgs[]"; filename="1.png"
+Content-Type: application/octet-stream
+
+< 1.png
+------WebKitFormBoundaryAdPWB9y8gDZKEaVv--
+
+
+
+
+
