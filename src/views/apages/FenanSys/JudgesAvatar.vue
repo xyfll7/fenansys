@@ -13,7 +13,7 @@ export default {
   name: 'JudgesAvatar',
   data() {
     return {
-      url: '/images/黄艳.jpg'
+      url: 'http://localhost/images/黄艳.jpg'
     }
   }
 }
