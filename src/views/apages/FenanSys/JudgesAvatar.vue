@@ -15,6 +15,9 @@ export default {
     return {
       url: 'http://localhost/images/黄艳.jpg'
     }
+  },
+  created() {
+    console.log(process.env)
   }
 }
 </script>
