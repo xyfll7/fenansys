@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>aaa</p>
     <AFunction>
       <Function />
     </AFunction>
