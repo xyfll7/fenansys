@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon login.js",
+    "start": "export NODE_ENV=development && nodemon login.js",
+    "serve": "export NODE_ENV=production && pm2 start login.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

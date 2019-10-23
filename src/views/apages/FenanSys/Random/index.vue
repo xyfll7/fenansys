@@ -1,23 +1,32 @@
 <template>
-  <el-row>
-    <el-col :span="8">
-      <TeamNav />
-    </el-col>
-    <el-col :span="8">
-      <JudgesAvatar />
-    </el-col>
-    <el-col :span="8">
-      <Avatar />
-    </el-col>
-  </el-row>
+  <div>
+    <Title :title="title" />
+    <el-row>
+      <el-col :span="8">
+        <TeamNav />
+      </el-col>
+      <el-col :span="8">
+        <JudgesAvatar />
+      </el-col>
+      <el-col :span="8">
+        <Avatar />
+      </el-col>
+    </el-row>
+  </div>
 </template>
 <script>
 export default {
   name: 'Random',
   components: {
+    Title: () => import('../Title'),
     TeamNav: () => import('./TeamNav'),
     JudgesAvatar: () => import('../JudgesAvatar'),
     Avatar: () => import('./Avatar')
+  },
+  data() {
+    return {
+      title: undefined
+    }
   }
 }
 </script>

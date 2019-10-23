@@ -13,6 +13,7 @@ module.exports = async () => {
     .connect(config.mongoURI, options)
     .then(() => {
       console.log('Mongodb Connected...')
+      console.log(config.mongoURI)
     })
     .catch(err => {
       console.log(err)
