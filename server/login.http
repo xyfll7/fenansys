@@ -1,7 +1,7 @@
 @host=http://fa.qtranser.cn/api/v1
 @host1=http://fa.qtranser.cn
 @host=http://106.13.92.185:8088/api/v1
-@token={{loginAPI.response.body.token}}
+@token={{loginApi.response.body.token}}
 ###
 POST {{host}}/user/test
 Content-Type: application/json
@@ -18,7 +18,7 @@ GET {{host}}/user/getuser
 Authorization: {{token}}
 
 ### 登陆(只能获取Token)
-# @name loginAPI
+# @name loginApi
 POST {{host}}/user/login
 Content-Type: application/json
 
