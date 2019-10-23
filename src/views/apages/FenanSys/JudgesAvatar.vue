@@ -15,9 +15,6 @@ export default {
     return {
       url: `${process.env.VUE_APP_IMG_API}/images/黄艳.jpg`
     }
-  },
-  created() {
-    console.log(process.env)
   }
 }
 </script>
