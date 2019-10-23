@@ -13,8 +13,7 @@ export default {
   name: 'JudgesAvatar',
   data() {
     return {
-      url:
-        'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg'
+      url: 'http://106.13.92.185/images/黄艳.jpg'
     }
   }
 }
