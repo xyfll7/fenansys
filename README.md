@@ -60,4 +60,4 @@ alias gittgs="gitt && git push server master"
 alias gittbgs="yarn build && gitt && gitts"
 ```
 
-ss
+sssssss
