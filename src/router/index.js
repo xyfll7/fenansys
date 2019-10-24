@@ -10,10 +10,6 @@ Vue.use(Router)
  */
 export const constantRoutes = [
   {
-    path: '/',
-    redirect: '/views'
-  },
-  {
     path: '/login',
     name: 'login',
     component: () => import('@/views/Login'),
@@ -32,6 +28,10 @@ export const constantRoutes = [
         component: () => import('@/views/Login/SignUp')
       }
     ]
+  },
+  {
+    path: '/',
+    redirect: '/views'
   },
   {
     path: '/views',

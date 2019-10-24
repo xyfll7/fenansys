@@ -5,7 +5,7 @@ import { getToken } from '@/utils/auth'
 import Code from '@/utils/code'
 
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API,
+  baseURL: process.env.VUE_APP_BASE_API + 'api/v1',
   timeout: 5000
 })
 
@@ -14,6 +14,7 @@ service.interceptors.request.use(
     if (store.getters.token) {
       config.headers.common['Authorization'] = getToken()
     }
+    console.log(process.env)
     return config
   },
   error => {
@@ -46,7 +47,6 @@ service.interceptors.response.use(
         })
       }
       console.log('axios失败')
-      console.log(res)
       return Promise.reject(new Error(res.message || 'Error'))
     } else {
       console.log('axios成功')

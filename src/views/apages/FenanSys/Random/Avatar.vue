@@ -1,7 +1,7 @@
 <template>
   <el-upload
     class="avatar-uploader"
-    action="http://106.13.92.185/api/v1/avatar/avatar"
+    :action="action"
     :show-file-list="false"
     :on-success="handleAvatarSuccess"
     :before-upload="beforeAvatarUpload"
@@ -15,7 +15,8 @@ export default {
   name: 'Avatar',
   data() {
     return {
-      imageUrl: ''
+      imageUrl: '',
+      action: `${process.env.VUE_APP_BASE_API}api/v1/avatar/avatar`
     }
   },
   methods: {

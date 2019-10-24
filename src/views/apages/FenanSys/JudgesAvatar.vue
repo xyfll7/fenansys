@@ -13,7 +13,7 @@ export default {
   name: 'JudgesAvatar',
   data() {
     return {
-      url: `${process.env.VUE_APP_IMG_API}/images/黄艳.jpg`
+      url: `${process.env.VUE_APP_BASE_API}images/黄艳.jpg`
     }
   }
 }
