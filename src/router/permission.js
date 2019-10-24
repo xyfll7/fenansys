@@ -39,7 +39,7 @@ router.beforeEach(async (to, from, next) => {
           router.addRoutes(accessRoutes)
 
           // hack method to ensure that addRoutes is complete
-          next({ ...to, replace: true })
+          next()
         } catch (error) {
           await store.dispatch('user/resetToken')
           Message.error(error || 'Has Error')
