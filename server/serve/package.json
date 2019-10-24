@@ -14,7 +14,7 @@
   },
   "scripts": {
     "start": "export NODE_ENV=development && nodemon serve.js",
-    "serve": "export NODE_ENV=production && pm2 start serve.js",
+    "serve": "export NODE_ENV=production && pm2 start serve.js --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   }
 }

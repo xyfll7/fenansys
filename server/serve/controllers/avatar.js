@@ -1,5 +1,4 @@
 const multer = require('@koa/multer')
-const path = require('path')
 /**
  * 测试
  */
