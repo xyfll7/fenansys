@@ -1,6 +1,6 @@
-@host=http://fa.qtranser.cn/api/v1
-@host1=http://fa.qtranser.cn
-@host=http://106.13.92.185:8088/api/v1
+@host=http://www.ssfwzxw.com/api/v1
+@host1=http://www.ssfwzxw.com
+@host=http://www.ssfwzxw.com/api/v1
 @token={{loginApi.response.body.token}}
 ###
 POST {{host}}/user/test
@@ -33,7 +33,7 @@ Content-Type: application/json
 
 {
     "name": "sssss",
-    "email": "l.77777@qq.com",
+    "email": "l.7@qq.com",
     "password": "yangqi77",
     "password2": "yangqi77",
     "avatar":"头像地址"
