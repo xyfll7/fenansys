@@ -1,4 +1,4 @@
-# fenansys [分案系统](http://git.ssfwzxw.com)
+# fenansys [分案系统](http://www.ssfwzxw.com)
 
 ## Project setup
 
