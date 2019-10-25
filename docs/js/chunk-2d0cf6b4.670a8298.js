@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0cf6b4"],{6444:function(n,e,t){"use strict";t.r(e);var c=function(){var n=this,e=n.$createElement,t=n._self._c||e;return t("p",[n._v("案件")])},u=[],a={name:"Case"},l=a,s=t("2877"),r=Object(s["a"])(l,c,u,!1,null,null,null);e["default"]=r.exports}}]);
+//# sourceMappingURL=chunk-2d0cf6b4.670a8298.js.map

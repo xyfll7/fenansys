@@ -5,9 +5,9 @@ const router = new Router()
 
 router
   .prefix('/user')
-  .post('/login', User.Login)
-  .post('/register', User.Register)
-  .get('/getUserInfo', User.GetUserInfo)
   .post('/test', User.Test)
+  .post('/register', User.Register)
+  .post('/login', User.Login)
+  .get('/info', User.Info)
 
 module.exports = router

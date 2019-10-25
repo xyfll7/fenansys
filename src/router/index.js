@@ -1,7 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
 Vue.use(Router)
+
+// debug https://www.cnblogs.com/rever/p/11577322.html
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 
 /**
  * constantRoutes
@@ -38,22 +43,34 @@ export const constantRoutes = [
     name: 'views',
     meta: { title: '首页' },
     component: () => import('@/views'),
-    redirect: '/fenansys',
+    redirect: '/fenan',
     children: [
       {
-        path: '/fenansys',
-        name: 'fenansys',
+        path: '/fenan',
+        name: 'fenan',
         meta: { title: '分案中心' },
-        component: () => import('@/views/apages/FenanSys'),
+        component: () => import('@/views/apages/Fenan'),
         redirect: '/random',
         children: [
           {
             path: '/random',
             name: 'random',
             meta: { title: '随机分案' },
-            component: () => import('@/views/apages/FenanSys/Random')
+            component: () => import('@/views/apages/Fenan/Random')
           }
         ]
+      },
+      {
+        path: '/case',
+        name: 'case',
+        meta: { title: '案件中心' },
+        component: () => import('@/views/apages/Case')
+      },
+      {
+        path: '/manage',
+        name: 'manage',
+        meta: { title: '管理中心' },
+        component: () => import('@/views/apages/Manage')
       }
     ]
   }

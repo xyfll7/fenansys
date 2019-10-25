@@ -81,7 +81,7 @@ const Login = async ctx => {
 /**
  * 获取用户信息
  */
-const GetUserInfo = async ctx => {
+const Info = async ctx => {
   try {
     const raw = ctx.request.header.authorization.split(' ').pop()
     const { id } = jwt.verify(raw, config.secretOrKey)
@@ -103,8 +103,8 @@ const GetUserInfo = async ctx => {
 }
 
 module.exports = {
+  Test,
   Register,
   Login,
-  GetUserInfo,
-  Test
+  Info
 }

@@ -1,0 +1,41 @@
+@host=http://www.ssfwzxw.com
+@host=http://localhost
+@prefix=/api/v1
+@token={{loginApi.response.body.data.token}}
+###
+POST {{host}}/user/test
+Content-Type: application/json
+
+{
+  "test":"测试成功了哈哈"
+}
+
+### 根据Token获取用户信息
+GET {{host}}{{prefix}}/user/info
+Authorization: {{token}}
+
+### 登陆(只能获取Token)
+# @name loginApi
+POST {{host}}{{prefix}}/user/login
+Content-Type: application/json
+
+{
+    "email": "l.7@qq.com",
+    "password": "yangqi77"
+}
+
+### 注册用户
+POST {{host}}{{prefix}}/user/register
+Content-Type: application/json
+
+{
+    "name": "sssss",
+    "email": "l.7@qq.com",
+    "password": "yangqi77",
+    "password2": "yangqi77",
+    "avatar":"头像地址"
+}
+
+
+
+

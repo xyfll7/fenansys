@@ -1,11 +1,12 @@
 import axios from 'axios'
 import store from '@/store'
+import Code from '@/utils/code'
 import { Message, MessageBox } from 'element-ui'
 import { getToken } from '@/utils/auth'
-import Code from '@/utils/code'
+import { prefix } from '@/settings'
 
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API + 'api/v1',
+  baseURL: process.env.VUE_APP_BASE_API + prefix,
   timeout: 5000
 })
 
@@ -14,11 +15,10 @@ service.interceptors.request.use(
     if (store.getters.token) {
       config.headers.common['Authorization'] = getToken()
     }
-    console.log(process.env)
     return config
   },
   error => {
-    console.log(error)
+    console.log('E' + error)
     return Promise.reject(error)
   }
 )

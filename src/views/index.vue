@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <NavMenu></NavMenu>
+    <Nav />
     <router-view></router-view>
     <el-footer class="centerxy">
       <Footer />
@@ -8,12 +8,12 @@
   </el-container>
 </template>
 <script>
-import NavMenu from '@/views/NavMenu'
+import Nav from '@/views/Nav'
 import Footer from '@/views/Footer'
 export default {
   name: 'Views',
   components: {
-    NavMenu,
+    Nav,
     Footer
   }
 }

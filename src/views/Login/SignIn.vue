@@ -95,7 +95,7 @@ export default {
                   this.$refs[formName].validate(() => {})
                   this.password = false
                 }
-                console.log(response)
+                console.log('W' + response)
               }
               // 点击登陆按钮后，服务器验证email账号不存在
               if (response.email) {

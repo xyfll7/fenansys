@@ -33,13 +33,13 @@ router.beforeEach(async (to, from, next) => {
           const { roles } = await store.dispatch('user/getUserInfo')
           console.log(roles)
           // generate accessible routes map based on roles
-          // const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
+          const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
 
-          // // dynamically add accessible routes
-          // router.addRoutes(accessRoutes)
+          // dynamically add accessible routes
+          router.addRoutes(accessRoutes)
 
           // hack method to ensure that addRoutes is complete
-          next()
+          next({ replace: true })
         } catch (error) {
           await store.dispatch('user/resetToken')
           Message.error(error || 'Has Error')

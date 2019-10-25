@@ -1,0 +1,4 @@
+@host=http://www.ssfwzxw.com
+
+### 图片服务
+GET {{host}}/images
