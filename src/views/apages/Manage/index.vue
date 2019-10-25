@@ -1,8 +1,22 @@
 <template>
-  <p>管理</p>
+  <div>
+    <AFunction>
+      <Function />
+    </AFunction>
+    <AMain>
+      <router-view />
+    </AMain>
+  </div>
 </template>
 <script>
+import AFunction from '@/views/AFunction'
+import AMain from '@/views/AMain'
 export default {
-  name: 'Manage'
+  name: 'Manage',
+  components: {
+    AFunction,
+    AMain,
+    Function: () => import('./Function')
+  }
 }
 </script>

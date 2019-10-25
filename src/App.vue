@@ -16,4 +16,19 @@
   margin: 0px;
   padding: 0px;
 }
+.router-link:link {
+  color: black;
+}
+
+.router-link:visited {
+  color: black;
+}
+
+.router-link:hover {
+  color: black;
+}
+
+.router-link:active {
+  color: black;
+}
 </style>

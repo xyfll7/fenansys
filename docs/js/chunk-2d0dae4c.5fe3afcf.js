@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0dae4c"],{"6e18":function(e,n,t){"use strict";t.r(n);var u=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div",[e._v("新增法官")])},c=[],a={name:"AddJudge"},d=a,l=t("2877"),r=Object(l["a"])(d,u,c,!1,null,null,null);n["default"]=r.exports}}]);
+//# sourceMappingURL=chunk-2d0dae4c.5fe3afcf.js.map

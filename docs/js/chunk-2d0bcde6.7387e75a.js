@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0bcde6"],{"2a23":function(e,n,t){"use strict";t.r(n);var a=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div",[e._v("新增团队")])},c=[],u={name:"AddTeam"},l=u,d=t("2877"),r=Object(d["a"])(l,a,c,!1,null,null,null);n["default"]=r.exports}}]);
+//# sourceMappingURL=chunk-2d0bcde6.7387e75a.js.map
