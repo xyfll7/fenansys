@@ -1,8 +1,28 @@
 <template>
   <div id="app">
-    <router-view />
+    <router-view v-if="isRouterAlive" />
   </div>
 </template>
+<script>
+export default {
+  name: 'app',
+  data() {
+    return {
+      isRouterAlive: true
+    }
+  },
+  provide() {
+    return {
+      reload() {
+        this.isRouterAlive = false
+        this.$nextTick(function() {
+          this.isRouterAlive = true
+        })
+      }
+    }
+  }
+}
+</script>
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -15,20 +35,5 @@
 * {
   margin: 0px;
   padding: 0px;
-}
-.router-link:link {
-  color: black;
-}
-
-.router-link:visited {
-  color: black;
-}
-
-.router-link:hover {
-  color: black;
-}
-
-.router-link:active {
-  color: black;
 }
 </style>

@@ -18,18 +18,3 @@
   justify-content: flex-end;
 }
 
-.router-link:link {
-  color: black;
-}
-
-.router-link:visited {
-  color: black;
-}
-
-.router-link:hover {
-  color: black;
-}
-
-.router-link:active {
-  color: black;
-}
