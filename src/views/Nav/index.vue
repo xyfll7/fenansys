@@ -1,13 +1,13 @@
 <template>
   <div class="line">
     <el-row>
-      <el-col :span="6">
+      <el-col :span="7">
         <Left class="centery height" />
       </el-col>
-      <el-col :span="12">
+      <el-col :span="10">
         <Center class="centerxy height" />
       </el-col>
-      <el-col :span="6">
+      <el-col :span="7">
         <Right class="centery end height" />
       </el-col>
     </el-row>
@@ -28,14 +28,14 @@ export default {
   }
 }
 </script>
-<style scoped src="./index.css">
-</style>
 <style scoped>
 .line {
   border-bottom: 1px solid #e4e7ed;
-  background: white;
+  background: #ffffffdb;
   padding: 0 10px 0 10px;
-  margin: 0 5px 0 5px;
   border-radius: 4px;
+}
+.height {
+  height: 60px;
 }
 </style>

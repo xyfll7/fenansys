@@ -1,29 +1,27 @@
 <template>
-  <div>
-    <el-menu
-      :default-active="$route.matched[1].path"
-      class="el-menu-demo"
-      mode="horizontal"
-      @select="handleSelect"
-      router
-    >
-      <el-menu-item index="/fenan">分案中心</el-menu-item>
-      <el-menu-item index="/case">案件信息</el-menu-item>
-      <el-menu-item index="/manage">管理中心</el-menu-item>
-    </el-menu>
-  </div>
+  <el-menu
+    :default-active="$route.matched[1].path"
+    class="el-menu-demo"
+    mode="horizontal"
+    @select="handleSelect"
+    router
+  >
+    <el-menu-item index="/fenan">分案中心</el-menu-item>
+    <el-menu-item index="/case">案件信息</el-menu-item>
+    <el-menu-item index="/manage">管理中心</el-menu-item>
+  </el-menu>
 </template>
 <script>
 export default {
   name: 'Cneter',
-  data() {
+  data () {
     return {
       activeIndex: ''
     }
   },
 
   methods: {
-    handleSelect(key, keyPath) {
+    handleSelect (key, keyPath) {
       console.log(key, keyPath)
     }
   }
@@ -31,6 +29,15 @@ export default {
 </script>
 <style scoped>
 .el-menu {
-  border-bottom: 0px;
+  background: #00000000;
+  border-bottom-width: 0px !important;
+}
+
+.el-menu-item:hover {
+  background: #00000000 !important;
+}
+
+.el-menu-item.is-active {
+  background: #00000000 !important;
 }
 </style>
