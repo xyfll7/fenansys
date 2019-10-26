@@ -36,7 +36,7 @@
 import { mapActions } from 'vuex'
 export default {
   name: 'SignIn',
-  data() {
+  data () {
     var checkEmail = (rule, value, callback) => {
       if (this.email) {
         callback(new Error(this.emailMessage))
@@ -68,7 +68,7 @@ export default {
   },
   methods: {
     ...mapActions(['user/login']),
-    submitForm(formName) {
+    submitForm (formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           // 向服务器提交账号密码
@@ -85,14 +85,14 @@ export default {
                 if (response.errors.email) {
                   this.email = true
                   this.emailMessage = response.errors.email
-                  this.$refs[formName].validate(() => {})
+                  this.$refs[formName].validate(() => { })
                   this.email = false
                 }
                 // 点击登陆按钮后，服务器验证password长度不对
                 if (response.errors.password) {
                   this.password = true
                   this.passwordMessage = response.errors.password
-                  this.$refs[formName].validate(() => {})
+                  this.$refs[formName].validate(() => { })
                   this.password = false
                 }
               }
@@ -100,14 +100,14 @@ export default {
               if (response.email) {
                 this.email = true
                 this.emailMessage = response.email
-                this.$refs[formName].validate(() => {})
+                this.$refs[formName].validate(() => { })
                 this.email = false
               }
               // 点击登陆按钮后，服务器验证password错误
               if (response.password) {
                 this.password = true
                 this.passwordMessage = response.password
-                this.$refs[formName].validate(() => {})
+                this.$refs[formName].validate(() => { })
                 this.password = false
               }
               this.loading = false
@@ -118,12 +118,10 @@ export default {
         }
       })
     },
-    resetForm(formName) {
+    resetForm (formName) {
       this.$refs[formName].resetFields()
     }
   }
 }
 </script>
-<style scoped>
-@import './index.css';
-</style>
+<style scoped src="./index.css">

@@ -28,10 +28,9 @@ export default {
   }
 }
 </script>
-
+<style scoped src="./index.css">
+</style>
 <style scoped>
-@import '../views.css';
-@import './index.css';
 .line {
   border-bottom: 1px solid #e4e7ed;
   background: white;

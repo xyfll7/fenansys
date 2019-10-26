@@ -6,16 +6,16 @@
 <script>
 export default {
   name: 'app',
-  data() {
+  data () {
     return {
       isRouterAlive: true
     }
   },
-  provide() {
+  provide () {
     return {
-      reload() {
+      reload () {
         this.isRouterAlive = false
-        this.$nextTick(function() {
+        this.$nextTick(function () {
           this.isRouterAlive = true
         })
       }
@@ -30,10 +30,47 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background: whitesmoke;
+  background-color: #e1f0ff5f;
 }
+
 * {
   margin: 0px;
   padding: 0px;
+}
+
+/** position */
+.centerx {
+  display: flex;
+  justify-content: center;
+}
+
+.centery {
+  display: flex;
+  align-items: center;
+}
+
+.centerxy {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.end {
+  justify-content: flex-end;
+}
+/* fade-transform */
+.fade-transform-leave-active,
+.fade-transform-enter-active {
+  transition: all 0.3s;
+}
+
+.fade-transform-enter {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.fade-transform-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
 }
 </style>

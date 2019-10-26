@@ -18,7 +18,23 @@
     <!-- 办案团队⬇⬇⬇ -->
     <div v-for="(team, index) in ruleForm.team" :key="index" style="display:flex">
       <el-form-item :label="`办案团队[${index+1}]`" :prop="'name'+index">
-        <el-input v-model.number="team.numberOfCasesHandled[0]"></el-input>
+        <el-input v-model.number="team.numberOfCasesHandled[0]">
+          <!-- 选择团队⬇⬇⬇ -->
+          <el-select
+            v-model="team.name"
+            slot="prepend"
+            @visible-change="autoRemoveSelectedTeam"
+            placeholder="请选择办案团队"
+          >
+            <el-option
+              v-for="(storeTeam,index) in storeTeams"
+              :key="index"
+              :label="storeTeam.name"
+              :value="storeTeam.name"
+            ></el-option>
+          </el-select>
+          <!-- 选择团队⬆⬆⬆ -->
+        </el-input>
       </el-form-item>
       <i style="margin-left:10px">
         <el-button v-if="index !== 0" @click.prevent="removeTeam(index)">删除</el-button>
@@ -26,8 +42,6 @@
       </i>
     </div>
     <!-- 办案团队⬆⬆⬆ -->
-
-    <el-button @click="test">test</el-button>
   </el-form>
 </template>
 
@@ -59,7 +73,8 @@ export default {
         proportion: [{ required: true, message: '请输入分案比例' }, { type: 'number', message: '分案比例必须位数字' }],
         team: [{ required: true, message: '请输入办案团队', trigger: 'blur' }, { type: 'array', message: '办案团队不能为空', trigger: 'blur' }],
         name0: [{ required: true, validator: checkName }]
-      }
+      },
+      storeTeams: []
     }
   },
   methods: {
@@ -74,6 +89,15 @@ export default {
       if (this.ruleForm.team.length > 1) {
         this.ruleForm.team.splice(index, 1)
       }
+    },
+    autoRemoveSelectedTeam () {
+      this.storeTeams = this.teams.filter((team) => {
+        let isEqual = true
+        this.ruleForm.team.forEach(item => {
+          if (item.name === team.name) isEqual = false
+        })
+        return isEqual
+      })
     },
 
     submitForm (formName) {

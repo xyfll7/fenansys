@@ -1,7 +1,9 @@
 <template>
   <el-container>
     <Nav />
-    <router-view></router-view>
+    <transition name="fade-transform" mode="out-in">
+      <router-view />
+    </transition>
     <el-footer class="centerxy">
       <Footer />
     </el-footer>
@@ -18,6 +20,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-@import './views.css';
-</style>
