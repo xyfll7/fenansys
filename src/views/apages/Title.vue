@@ -7,7 +7,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: '智慧分案系统'
+      default: '均衡分案系统'
     }
   }
 }
