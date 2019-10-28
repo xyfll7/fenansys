@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <p>新绛县人民法院 | 青春追梦网络科技</p>
-    <p>2019-2022@copyright</p>
-  </div>
+  <p>新绛县人民法院 | 青春追梦网络科技 | 2019-2022@copyright</p>
 </template>
 <script>
 export default {

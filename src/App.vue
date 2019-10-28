@@ -24,6 +24,10 @@ export default {
 }
 </script>
 <style>
+body {
+  background-color: #e1f0ff5f;
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -31,18 +35,16 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
-body {
-  background-color: #e1f0ff5f;
-  padding: 0 20px 0 20px;
-}
+
 * {
   margin: 0px;
   padding: 0px;
 }
+
+/** 隐藏滚动条 */
 /** https://www.cnblogs.com/sun-rain/p/5789417.html */
-::-webkit-scrollbar {
-  /* 滚动条整体部分 */
-  width: 0px;
+body::-webkit-scrollbar {
+  display: none;
 }
 
 /** position */
@@ -79,5 +81,16 @@ body {
 .fade-transform-leave-to {
   opacity: 0;
   transform: translateX(30px);
+}
+
+/** 文字颜色 */
+.graytitle {
+  color: #606266;
+}
+.prompt {
+  color: #40a0ffb6;
+  font-size: 14px;
+  float: left;
+  margin-left: 3px;
 }
 </style>

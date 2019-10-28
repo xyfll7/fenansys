@@ -1,39 +1,23 @@
 <template>
-  <el-card shadow="hover" :style="{ height: tableHeight+'px' }">
-    <div class="div">
-      <slot />
-    </div>
+  <el-card shadow="hover" :style="{ height: height+'px' }">
+    <slot />
   </el-card>
 </template>
 <script>
+import autoHeight from '@/views/mixins/autoHeight'
 export default {
   name: 'AMain',
+  mixins: [autoHeight],
   data () {
     return {
-      tableHeight: '0',
-      screenHeight: window.innerHeight
-    }
-  },
-
-  created () {
-    this.tableHeight = window.innerHeight - 183
-    window.onresize = () => {
-      return (() => {
-        this.screenHeight = window.innerHeight
-      })()
-    }
-  },
-  watch: {
-    screenHeight (val) {
-      this.screenHeight = val
-      this.tableHeight = this.screenHeight - 183
+      subHeight: 153
     }
   }
 }
 </script>
 <style scoped>
 .el-card {
-  background: #ffffffbd;
+  background: #ffffffdb;
   overflow: auto;
 }
 .el-card::-webkit-scrollbar {

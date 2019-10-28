@@ -1,5 +1,5 @@
 .el-menu {
-  background: rgba(255, 0, 0, 0);
+  background: rgba(0, 0, 0, 0);
   border-bottom-width: 0px !important;
 }
 
@@ -10,11 +10,11 @@
 }
 
 .el-menu-item:hover {
-  background: rgba(255, 0, 0, 0) !important;
+  background: rgba(0, 0, 0, 0) !important;
 }
 
 .el-menu-item.is-active {
-  background: rgba(255, 0, 0, 0) !important;
+  background: rgba(0, 0, 0, 0) !important;
   border-bottom-width: 0px !important;
 }
 
