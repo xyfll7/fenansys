@@ -93,4 +93,10 @@ body::-webkit-scrollbar {
   float: left;
   margin-left: 3px;
 }
+.prompt-warn {
+  color: #f56c6c;
+  font-size: 14px;
+  float: left;
+  margin-left: 3px;
+}
 </style>

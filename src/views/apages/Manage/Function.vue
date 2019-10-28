@@ -5,12 +5,12 @@
     </el-menu-item>
     <el-menu-item index="/addjudge">
       <el-button :class="$route.matched[2].path === '/addjudge'? 'is-active':''" size="medium">
-        <i class="el-icon-plus"></i>新增法官
+        <i class="el-icon-plus"></i>法官管理
       </el-button>
     </el-menu-item>
     <el-menu-item index="/addteam">
       <el-button :class="$route.matched[2].path === '/addteam'? 'is-active':''" size="medium">
-        <i class="el-icon-plus"></i>新增团队
+        <i class="el-icon-plus"></i>团队管理
       </el-button>
     </el-menu-item>
   </el-menu>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Title title="新增团队" />
+    <Title title="团队管理" />
     <Add />
     <Table />
   </div>

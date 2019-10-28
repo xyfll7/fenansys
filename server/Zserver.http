@@ -11,6 +11,8 @@ Content-Type: application/json
   "test":"测试成功了哈哈"
 }
 
+###
+POST {{host}}/team/index
 
 ###
 POST {{host}}/avatar/avatar

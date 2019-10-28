@@ -5,13 +5,23 @@
         :row-style="{ background: 'rgba(0, 0, 0, 0)' }"
         :header-row-style="{ background: 'rgba(0, 0, 0, 0)' }"
         :header-cell-style="{ background: 'rgba(0, 0, 0, 0)' }"
-        :data="tableData"
+        :data="teams"
         :height="height"
       >
         <el-table-column label="团队名称">
           <template slot-scope="scope">
-            <i class="ico icon-tuandui"></i>
-            <span style="margin-left: 10px">{{ scope.row.name }}</span>
+            <i v-if="editIndex+1 === scope.$index+1 ? false : true " class="ico icon-tuandui"></i>
+            <span
+              v-if="editIndex+1 === scope.$index+1 ? false : true "
+              style="margin-left: 10px"
+            >{{ scope.row.name }}</span>
+            <el-input
+              v-if="editIndex+1 === scope.$index+1 ? true : false "
+              size="mini"
+              prefix-icon="ico icon-tuandui"
+              :placeholder="scope.row.name"
+              v-model="name"
+            ></el-input>
           </template>
         </el-table-column>
         <el-table-column label="团队成员">
@@ -30,8 +40,23 @@
             <i class="el-icon-finished"></i>
           </template>
           <template slot-scope="scope">
-            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            <el-button
+              v-if="editIndex+1 === scope.$index+1 ? false : true "
+              size="mini"
+              @click="editTeam(scope.$index, scope.row)"
+            >编辑</el-button>
+            <el-button
+              v-if="editIndex+1 === scope.$index+1 ? false : true "
+              size="mini"
+              type="danger"
+              @click="deleteTeam(scope.$index, scope.row)"
+            >删除</el-button>
+            <el-button
+              v-if="editIndex+1 === scope.$index+1 ? true : false "
+              size="mini"
+              type="primary"
+              @click="updateTeam(scope.$index, scope.row)"
+            >保存</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -39,37 +64,66 @@
   </el-row>
 </template>
 <script>
-import { getTeam } from '@/store/api/team'
+import { mapGetters, mapActions } from 'vuex'
 import autoHeight from '@/views/mixins/autoHeight'
 export default {
   name: 'Table',
   mixins: [autoHeight],
   data () {
     return {
-      tableData: [],
-      subHeight: 407
+      subHeight: 407, // mixins-autoHeight 自定义参数
+      editIndex: undefined,
+      name: ''
     }
   },
-  async created () {
-    const res = await getTeam()
-    const { data } = res
-    this.tableData = data
+  computed: {
+    ...mapGetters(['teams'])
   },
+  async created () {
+    this['team/getTeams']()
+  },
+
   methods: {
-    handleEdit (index, row) {
-      console.log(index, row)
+    ...mapActions([
+      'team/getTeams',
+      'team/deleteTeam',
+      'team/updateTeam'
+    ]),
+    editTeam (index, row) {
+      this.editIndex = index
     },
-    handleDelete (index, row) {
-      console.log(index, row)
+    deleteTeam (index, row) {
+      const _id = { _id: row._id }
+      this['team/deleteTeam']({ _id, index })
+    },
+    async updateTeam (index, row) {
+      if (this.name === '') return
+      const team = row
+      team.name = this.name
+      try {
+        const res = await this['team/updateTeam']({ team, index })
+        if (res.data) {
+          this.editIndex = undefined
+        }
+      } catch { }
     }
   }
 }
 </script>
 <style scoped>
+/** 表头图标 */
+.el-icon-finished {
+  font-size: 20px;
+}
+/** 表格 */
 .el-table {
   background: rgba(0, 0, 0, 0);
 }
+.el-input {
+  width: 200px;
+}
 
+/** 表格滚动条 */
 .el-table >>> .el-table__header-wrapper .gutter {
   background: rgba(0, 0, 0, 0);
 }
@@ -79,9 +133,5 @@ export default {
 .el-table >>> .el-table__body-wrapper::-webkit-scrollbar-thumb {
   background: #77777727;
   border-radius: 4px;
-}
-
-.el-icon-finished {
-  font-size: 20px;
 }
 </style>

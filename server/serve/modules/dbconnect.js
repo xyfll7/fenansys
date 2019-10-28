@@ -6,7 +6,8 @@ module.exports = async () => {
   const options = {
     useNewUrlParser: true,
     useFindAndModify: false,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useCreateIndex: true
   }
   // To handle initial connection errors
   mongoose
