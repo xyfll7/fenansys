@@ -31,7 +31,6 @@ const actions = {
       commit('ADD_TEAM', data)
       return res
     }
-
     if (res.message) {
       throw new Error(res.message)
     }
