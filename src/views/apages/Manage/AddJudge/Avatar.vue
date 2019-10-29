@@ -10,6 +10,7 @@
       <img v-if="imageUrl" :src="imageUrl" class="avatar" />
       <i v-else class="el-icon-plus avatar-uploader-icon"></i>
     </el-upload>
+    <p class="p">法官照片</p>
   </div>
 </template>
 <script>
@@ -50,6 +51,15 @@ export default {
   display: flex;
   justify-content: flex-end;
 }
+
+.p {
+  display: flex;
+  justify-content: center;
+  width: 16px;
+  margin-top: 15px;
+  margin-right: 10px;
+}
+
 .avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;
@@ -59,7 +69,7 @@ export default {
   height: 310px;
   justify-content: center;
   flex-direction: column;
-  margin-right: 30px;
+  margin-right: 10px;
 }
 
 .avatar-uploader .el-upload:hover {
