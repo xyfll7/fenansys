@@ -1,15 +1,18 @@
 <template>
-  <div>
-    <Title title="新增法官" />
+  <el-row>
     <el-row>
-      <el-col :span="12">
+      <Title title="新增法官" />
+      <p class="graytitle">请填写法官基本信息</p>
+    </el-row>
+    <el-row type="flex" justify="center">
+      <el-col :xs="10" :sm="8" :md="5" :lg="4" :xl="4">
         <Avatar />
       </el-col>
-      <el-col :span="12">
+      <el-col :xs="19" :sm="15" :md="13" :lg="9" :xl="8">
         <Add />
       </el-col>
     </el-row>
-  </div>
+  </el-row>
 </template>
 <script>
 export default {
@@ -21,3 +24,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.graytitle {
+  margin: 10px 0 25px 0;
+}
+</style>

@@ -82,19 +82,24 @@ const Delete = async ctx => {
 const Update = async ctx => {
   try {
     const team = ctx.request.body
-    console.log(team)
     const res = await Team.updateOne({ _id: team._id }, { $set: team }, { upsert: true })
     if (res.nModified) {
       ctx.body = {
         code: Code.SUCCESS,
         data: team
       }
+    } else {
+      const { name } = ctx.request.body
+      ctx.body = {
+        code: Code.SUCCESS,
+        message: `${name}团队已经存在，请不要重复添加`
+      }
     }
   } catch (err) {
     if (err.code === 11000) {
       const { name } = ctx.request.body
       ctx.body = {
-        code: Code.BUSINESS_ERROR,
+        code: Code.SUCCESS,
         message: `${name}团队已经存在，请不要重复添加`
       }
     } else {

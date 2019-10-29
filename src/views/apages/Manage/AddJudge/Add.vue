@@ -13,12 +13,14 @@
       <el-input v-model="ruleForm.office"></el-input>
     </el-form-item>
     <el-form-item label="分案比例" prop="proportion">
-      <el-input-number v-model.number="ruleForm.proportion" :min="1" :max="10"></el-input-number>
+      <div style="display:flex">
+        <el-input-number v-model.number="ruleForm.proportion" :min="1" :max="10"></el-input-number>
+      </div>
     </el-form-item>
     <!-- 办案团队⬇⬇⬇ -->
-    <div v-for="(team, index) in ruleForm.team" :key="index" style="display:flex">
-      <el-form-item :label="`办案团队[${index+1}]`" :prop="'name'+index">
-        <el-input v-model.number="team.numberOfCasesHandled[0]">
+    <div v-for="(team, index) in ruleForm.teams" :key="index" style="display:flex">
+      <el-form-item :label="`办案团队[${index+1}]`" :prop="`name${index}`">
+        <el-input v-model.number="team.numberOfCasesHandled[0]" placeholder="初始办案数量">
           <!-- 选择团队⬇⬇⬇ -->
           <el-select
             v-model="team.name"
@@ -27,12 +29,13 @@
             placeholder="请选择办案团队"
           >
             <el-option
-              v-for="(storeTeam,index) in storeTeams"
+              v-for="(team,index) in storeTeams"
               :key="index"
-              :label="storeTeam.name"
-              :value="storeTeam.name"
+              :label="team.name"
+              :value="team.name"
             ></el-option>
           </el-select>
+
           <!-- 选择团队⬆⬆⬆ -->
         </el-input>
       </el-form-item>
@@ -46,10 +49,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import dcopy from 'deep-copy'
 export default {
   name: 'Add',
   data () {
-    let checkTel = (rule, value, callback) => {
+    const checkTel = (rule, value, callback) => {
       const tel = value ? value.toString() : 0
       if (tel.length !== 11) {
         callback(new Error('电话号码长度有误'))
@@ -60,40 +65,63 @@ export default {
         callback()
       }
     }
-    let checkName = (rule, value, callback) => {
-      callback()
+    const checkTeamName = (rule, value, callback) => {
+      const i = parseInt(rule.field.charAt(rule.field.length - 1))
+      let isVlidate = true
+      let message = ''
+      const val = this.ruleForm.teams[i].numberOfCasesHandled[0]
+      if (this.ruleForm.teams[i].name === '') {
+        message = '团队不能为空'
+      }
+      if (!(typeof val === 'number' && !isNaN(val))) {
+        if (message) message += '\xa0\xa0\xa0\xa0'
+        message += ' 初始办案数量必须填写且必须为数字值'
+      }
+
+      if (message) {
+        callback(new Error(message))
+        isVlidate = false
+      }
+      if (isVlidate) {
+        callback()
+      }
     }
     return {
-      ruleForm: { name: '', position: '', tel: undefined, office: '', proportion: 1, team: [{ name: '', numberOfCasesHandled: [0] }] },
+      ruleForm: { name: '', position: '', tel: undefined, office: '', proportion: 1, teams: [{ name: '', numberOfCasesHandled: [] }] },
       rules: {
         name: [{ required: true, message: '请输入法官名称', trigger: 'blur' }, { min: 2, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }],
         position: [{ required: true, message: '请输入法官职务', trigger: 'blur' }, { min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }],
         tel: [{ required: true, validator: checkTel, trigger: 'blur' }],
         office: [{ required: true, message: '请输入办公室', trigger: 'blur' }],
         proportion: [{ required: true, message: '请输入分案比例' }, { type: 'number', message: '分案比例必须位数字' }],
-        team: [{ required: true, message: '请输入办案团队', trigger: 'blur' }, { type: 'array', message: '办案团队不能为空', trigger: 'blur' }],
-        name0: [{ required: true, validator: checkName }]
+        name0: [{ required: true, validator: checkTeamName }]
       },
       storeTeams: []
     }
   },
+  computed: {
+    ...mapGetters(['teams'])
+  },
+  created () {
+    this.storeTeams = dcopy(this.teams)
+  },
   methods: {
     addTeam () {
-      const len = this.ruleForm.team.length
+      const len = this.ruleForm.teams.length
       if (len < 4) {
-        this.ruleForm.team.push(this.ruleForm.team[0])
+        this.ruleForm.teams.push({ name: '', numberOfCasesHandled: [] })
         this.rules[`name${len}`] = this.rules.name0
       }
     },
     removeTeam (index) {
-      if (this.ruleForm.team.length > 1) {
-        this.ruleForm.team.splice(index, 1)
+      if (this.ruleForm.teams.length > 1) {
+        this.ruleForm.teams.splice(index, 1)
       }
     },
     autoRemoveSelectedTeam () {
       this.storeTeams = this.teams.filter((team) => {
         let isEqual = true
-        this.ruleForm.team.forEach(item => {
+        this.ruleForm.teams.forEach(item => {
           if (item.name === team.name) isEqual = false
         })
         return isEqual
@@ -116,3 +144,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.el-select {
+  width: 190px;
+}
+</style>

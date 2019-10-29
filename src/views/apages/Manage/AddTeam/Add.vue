@@ -1,8 +1,12 @@
 <template>
   <div>
-    <p class="graytitle">请填写团队名称</p>
     <div class="div">
-      <el-input v-model="input" @focus="onfocus" placeholder="请输入团队名称" />
+      <el-input
+        v-model="input"
+        @focus="onfocus"
+        @keyup.enter.native="addTeam"
+        placeholder="请输入团队名称"
+      />
       <el-button type="primary" @click="addTeam">添加</el-button>
       <br />
       <span :class="prompt">{{ promptText }}</span>
@@ -29,6 +33,7 @@ export default {
         const team = { name: this.input }
         try {
           await this['team/addTeam'](team)
+          this.input = ''
         } catch (err) {
           this.promptText = err.message
           this.prompt = 'prompt-warn'
@@ -43,16 +48,12 @@ export default {
 }
 </script>
 <style scoped>
-p {
-  margin: 10px 0 25px 0;
-}
-
 .div {
   display: inline-block;
   margin-bottom: 45px;
 }
 .el-input {
-  width: 450px;
+  width: 400px;
   margin: 0 10px 0 0;
 }
 .el-button {

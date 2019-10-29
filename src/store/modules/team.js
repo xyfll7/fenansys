@@ -43,14 +43,15 @@ const actions = {
     return res
   },
   async updateTeam({ commit }, { team, index }) {
-    try {
-      const res = await updateTeam(team)
-      if (res.data) {
-        const team = res.data
-        commit('UPDATE_TEAM', { team, index })
-      }
+    const res = await updateTeam(team)
+    if (res.data) {
+      const team = res.data
+      commit('UPDATE_TEAM', { team, index })
       return res
-    } catch {}
+    }
+    if (res.message) {
+      throw new Error(res.message)
+    }
   }
 }
 

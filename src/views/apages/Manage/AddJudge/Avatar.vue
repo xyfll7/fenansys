@@ -13,6 +13,7 @@
   </div>
 </template>
 <script>
+
 export default {
   name: 'Avatar',
   data () {
@@ -21,6 +22,7 @@ export default {
       action: `${process.env.VUE_APP_BASE_API}api/v1/avatar/avatar`
     }
   },
+
   methods: {
     handleAvatarSuccess (res, file) {
       this.imageUrl = URL.createObjectURL(file.raw)
