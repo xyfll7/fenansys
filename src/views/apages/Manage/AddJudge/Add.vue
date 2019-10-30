@@ -1,51 +1,58 @@
 <template>
-  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
-    <el-form-item label="法官姓名" prop="name">
-      <el-input v-model="ruleForm.name"></el-input>
-    </el-form-item>
-    <el-form-item label="法官职务" prop="position">
-      <el-input v-model="ruleForm.position"></el-input>
-    </el-form-item>
-    <el-form-item label="联系电话" prop="tel">
-      <el-input v-model.number="ruleForm.tel"></el-input>
-    </el-form-item>
-    <el-form-item label="办公室" prop="office">
-      <el-input v-model="ruleForm.office"></el-input>
-    </el-form-item>
-    <el-form-item label="分案比例" prop="proportion">
-      <div style="display:flex">
-        <el-input-number v-model.number="ruleForm.proportion" :min="1" :max="10"></el-input-number>
-      </div>
-    </el-form-item>
-    <!-- 办案团队⬇⬇⬇ -->
-    <div v-for="(team, index) in ruleForm.teams" :key="index" style="display:flex">
-      <el-form-item :label="`办案团队[${index+1}]`" :prop="`name${index}`">
-        <el-input v-model.number="team.numberOfCasesHandled[0]" placeholder="初始办案数量">
-          <!-- 选择团队⬇⬇⬇ -->
-          <el-select
-            v-model="team.name"
-            slot="prepend"
-            @visible-change="autoRemoveSelectedTeam"
-            placeholder="请选择办案团队"
-          >
-            <el-option
-              v-for="(team,index) in storeTeams"
-              :key="index"
-              :label="team.name"
-              :value="team.name"
-            ></el-option>
-          </el-select>
-
-          <!-- 选择团队⬆⬆⬆ -->
-        </el-input>
+  <div>
+    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
+      <el-form-item label="法官姓名" prop="name">
+        <el-input v-model="ruleForm.name"></el-input>
       </el-form-item>
-      <i style="margin-left:10px">
-        <el-button v-if="index !== 0" @click.prevent="removeTeam(index)">删除</el-button>
-        <el-button v-if="index === 0" @click.prevent="addTeam()">添加</el-button>
-      </i>
+      <el-form-item label="法官职务" prop="position">
+        <el-input v-model="ruleForm.position"></el-input>
+      </el-form-item>
+      <el-form-item label="联系电话" prop="tel">
+        <el-input v-model.number="ruleForm.tel"></el-input>
+      </el-form-item>
+      <el-form-item label="办公室" prop="office">
+        <el-input v-model="ruleForm.office"></el-input>
+      </el-form-item>
+      <el-form-item label="分案比例" prop="proportion">
+        <div style="display:flex">
+          <el-input-number v-model.number="ruleForm.proportion" :min="1" :max="10"></el-input-number>
+        </div>
+      </el-form-item>
+      <!-- 办案团队⬇⬇⬇ -->
+      <div v-for="(team, index) in ruleForm.teams" :key="index" style="display:flex">
+        <el-form-item :label="`办案团队[${index+1}]`" :prop="`name${index}`">
+          <el-input v-model.number="team.numberOfCasesHandled[0]" placeholder="初始办案数量">
+            <!-- 选择团队⬇⬇⬇ -->
+            <el-select
+              v-model="team.name"
+              slot="prepend"
+              @visible-change="autoRemoveSelectedTeam"
+              placeholder="请选择办案团队"
+            >
+              <el-option
+                v-for="(team,index) in storeTeams"
+                :key="index"
+                :label="team.name"
+                :value="team.name"
+              ></el-option>
+            </el-select>
+
+            <!-- 选择团队⬆⬆⬆ -->
+          </el-input>
+        </el-form-item>
+        <i style="margin-left:10px">
+          <el-button v-if="index !== 0" @click.prevent="removeTeam(index)">删除</el-button>
+          <el-button v-if="index === 0" @click.prevent="addTeam()">添加</el-button>
+        </i>
+      </div>
+      <!-- 办案团队⬆⬆⬆ -->
+    </el-form>
+    <div class="end">
+      <el-button>取消</el-button>
+      <el-button @click="resetForm('ruleForm')">重置</el-button>
+      <el-button @click="submitForm('ruleForm')" type="primary">立即提交</el-button>
     </div>
-    <!-- 办案团队⬆⬆⬆ -->
-  </el-form>
+  </div>
 </template>
 
 <script>
@@ -148,5 +155,8 @@ export default {
 <style scoped>
 .el-select {
   width: 190px;
+}
+.end {
+  margin-top: 30px;
 }
 </style>

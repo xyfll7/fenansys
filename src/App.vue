@@ -65,6 +65,7 @@ body::-webkit-scrollbar {
 }
 
 .end {
+  display: flex;
   justify-content: flex-end;
 }
 /* fade-transform */

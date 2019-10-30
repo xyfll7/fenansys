@@ -1,5 +1,5 @@
 <template>
-  <div @click="cancel($event)">
+  <div @click="cancel($event)" style="background:red">
     <el-table
       :row-style="{ background: 'rgba(0, 0, 0, 0)' }"
       :header-row-style="{ background: 'rgba(0, 0, 0, 0)' }"
