@@ -2,7 +2,7 @@
   <el-row type="flex" justify="center">
     <el-col :xs="22" :sm="20" :md="17" :lg="12" :xl="11">
       <Title title="团队管理" />
-      <p class="graytitle">请填写团队名称</p>
+      <p class="graytitle">请输入团队名称，添加团队</p>
       <Add />
       <Table />
     </el-col>

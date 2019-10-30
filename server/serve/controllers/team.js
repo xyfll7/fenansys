@@ -1,4 +1,3 @@
-// const Team = require('../modules/team')
 const Team = require('../modules/team')
 const Code = require('../../code')
 /**
@@ -58,13 +57,12 @@ const Get = async ctx => {
  */
 const Delete = async ctx => {
   try {
-    const team = ctx.request.body
-    console.log(team)
-    const res = await Team.deleteOne(team)
+    const _id = ctx.request.body
+    const res = await Team.deleteOne(_id)
     if (res.deletedCount) {
       ctx.body = {
         code: Code.SUCCESS,
-        data: team
+        data: _id
       }
     } else {
       ctx.body = {
@@ -83,16 +81,10 @@ const Update = async ctx => {
   try {
     const team = ctx.request.body
     const res = await Team.updateOne({ _id: team._id }, { $set: team }, { upsert: true })
-    if (res.nModified) {
+    if ((res.n && res.nModified === 0) || res.nModified === 1) {
       ctx.body = {
         code: Code.SUCCESS,
         data: team
-      }
-    } else {
-      const { name } = ctx.request.body
-      ctx.body = {
-        code: Code.SUCCESS,
-        message: `${name}团队已经存在，请不要重复添加`
       }
     }
   } catch (err) {

@@ -23,7 +23,7 @@
             :placeholder="scope.row.name"
             v-model="text"
             :class="prompt? 'prompt': ''"
-            @focus="clearDuplicate"
+            @focus="clearDuplicate(scope.row.name)"
             @keyup.enter.native="updateTeam(scope.$index, scope.row,$event)"
           ></el-input>
         </template>
@@ -142,8 +142,9 @@ export default {
         this.duplicate = err.message
       }
     },
-    clearDuplicate () {
+    clearDuplicate (name) {
       this.duplicate = ''
+      this.text = name
       this.prompt = false
     },
     // 点击输入框以外的区域隐藏输入框
