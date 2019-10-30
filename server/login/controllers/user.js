@@ -52,6 +52,7 @@ const Login = async ctx => {
   }
   const { email, password } = ctx.request.body
   const [user] = await User.find({ email }) // 获取用户信息
+  console.log(user)
   if (!user) {
     ctx.body = {
       code: Code.SUCCESS,

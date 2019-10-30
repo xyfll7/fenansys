@@ -1,5 +1,5 @@
 <template>
-  <div @click="cancel($event)" style="background:red">
+  <div>
     <el-table
       :row-style="{ background: 'rgba(0, 0, 0, 0)' }"
       :header-row-style="{ background: 'rgba(0, 0, 0, 0)' }"
@@ -21,8 +21,9 @@
             size="mini"
             prefix-icon="ico icon-tuandui"
             :placeholder="scope.row.name"
-            v-model="name"
+            v-model="text"
             :class="prompt? 'prompt': ''"
+            @focus="clearDuplicate"
             @keyup.enter.native="updateTeam(scope.$index, scope.row,$event)"
           ></el-input>
         </template>
@@ -82,11 +83,30 @@ export default {
       subHeight: 407, // mixins/autoHeight 自定义参数
       editIndex: undefined,
       prompt: false, // 编辑输入框错误提示（边框颜色改变）
-      name: ''
+      name: '',
+      duplicate: ''
     }
   },
   computed: {
-    ...mapGetters(['teams'])
+    ...mapGetters(['teams']),
+    text: {
+      get () {
+        if (this.duplicate) { return this.duplicate } else {
+          return this.name
+        }
+      },
+      set (value) {
+        this.name = value
+      }
+    }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      document.addEventListener('click', this.cancel)
+    })
+  },
+  beforeDestroy () {
+    document.removeEventListener('click', this.cancel)
   },
   methods: {
     ...mapActions([
@@ -108,6 +128,7 @@ export default {
         this.editIndex = undefined
         return
       }
+      if (this.duplicate) return
       const team = dcopy(row)
       team.name = this.name
       try {
@@ -118,13 +139,19 @@ export default {
       } catch (err) {
         console.log(err)
         this.prompt = true
-        this.name = err.message
+        this.duplicate = err.message
       }
     },
+    clearDuplicate () {
+      this.duplicate = ''
+      this.prompt = false
+    },
     // 点击输入框以外的区域隐藏输入框
-    cancel (event) {
-      if (event.target && event.target.className === 'el-input__inner') return
+    cancel (e) {
+      if (e.target && e.target.className === 'el-input__inner') return
       this.editIndex = undefined
+      this.duplicate = ''
+      this.prompt = false
     }
   }
 }
