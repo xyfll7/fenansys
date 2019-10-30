@@ -3,7 +3,9 @@
     <el-container>
       <Nav />
       <transition name="fade-transform" mode="out-in">
-        <router-view />
+        <keep-alive include="AddJudge">
+          <router-view />
+        </keep-alive>
       </transition>
       <el-footer class="centery" style="height:28px">
         <Footer />

@@ -94,7 +94,7 @@ export default {
       }
     }
     return {
-      ruleForm: { name: '', position: '', tel: undefined, office: '', proportion: 1, teams: [{ name: '', numberOfCasesHandled: [] }] },
+      ruleForm: { name: '', position: '', tel: undefined, office: '', proportion: 1, teams: [{ name: '', numberOfCasesHandled: [] }], avatar: '' },
       rules: {
         name: [{ required: true, message: '请输入法官名称', trigger: 'blur' }, { min: 2, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }],
         position: [{ required: true, message: '请输入法官职务', trigger: 'blur' }, { min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }],
@@ -136,6 +136,7 @@ export default {
     },
 
     submitForm (formName) {
+      this.$emit('validate')
       this.$refs[formName].validate(valid => {
         if (valid) {
           alert('submit!')
@@ -147,6 +148,7 @@ export default {
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()
+      this.$emit('resetform')
     }
   }
 }

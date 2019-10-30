@@ -8,7 +8,8 @@ const getters = {
       store.dispatch('team/getTeams')
     }
     return state.team.teams
-  }
+  },
+  avatar: state => state.judge.avatar
 }
 
 export default getters

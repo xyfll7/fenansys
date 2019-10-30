@@ -1,34 +1,63 @@
 <template>
   <div class="main">
-    <el-upload
-      class="avatar-uploader"
-      :action="action"
-      :show-file-list="false"
-      :on-success="handleAvatarSuccess"
-      :before-upload="beforeAvatarUpload"
-    >
-      <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-      <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-    </el-upload>
-    <p class="p">法官照片</p>
+    <el-form :model="{}" :rules="rules" ref="ruleForm" inline>
+      <el-form-item prop="avatar">
+        <el-upload
+          class="avatar-uploader"
+          :action="action"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload"
+        >
+          <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+      </el-form-item>
+      <el-form-item>
+        <p class="p">法官照片</p>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 <script>
-
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'Avatar',
   data () {
+    const checkAvatar = (rule, value, callback) => {
+      console.log('D', this.avatar)
+      if (this.avatar) {
+        callback()
+      }
+      callback(new Error('法官照片不能为空'))
+    }
     return {
+      action: `${process.env.VUE_APP_BASE_API}api/v1/avatar/avatar`,
       imageUrl: '',
-      action: `${process.env.VUE_APP_BASE_API}api/v1/avatar/avatar`
+      rules: {
+        avatar: [
+          { required: true, validator: checkAvatar }
+        ]
+      }
     }
   },
-
+  computed: {
+    ...mapGetters(['avatar'])
+  },
   methods: {
-    handleAvatarSuccess (res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw)
+    ...mapMutations(['judge/SET_AVATAR']),
+    validate () {
+      this.$refs['ruleForm'].validate(() => { })
     },
 
+    handleAvatarSuccess (res, file) {
+      this['judge/SET_AVATAR'](res.filename)
+      this.resetform()
+      this.imageUrl = URL.createObjectURL(file.raw)
+    },
+    resetform () {
+      this.$refs['ruleForm'].resetFields()
+    },
     beforeAvatarUpload (file) {
       const isJPG = file.type === 'image/jpeg'
 
@@ -78,7 +107,7 @@ export default {
 
 .avatar-uploader-icon {
   font-size: 28px;
-  color: #8c939d;
+  color: #409eff;
   width: 221px;
   height: 310px;
   line-height: 310px;
