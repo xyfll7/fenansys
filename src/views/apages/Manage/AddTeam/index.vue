@@ -15,6 +15,11 @@ export default {
     Title: () => import('../../Title'),
     Add: () => import('./Add'),
     Table: () => import('./Table')
+  },
+  activated () {
+    if (this.$route.path !== '/addteam') {
+      this.$router.push({ path: '/addteam' }).then(() => { })
+    }
   }
 }
 </script>

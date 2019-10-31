@@ -21,6 +21,14 @@ export default {
     Title: () => import('../../Title'),
     Avatar: () => import('./Avatar'),
     Add: () => import('./Add')
+  },
+  activated () {
+    if (this.$route.path !== '/addjudge') {
+      this.$router.push({ path: '/addjudge' }).then(() => { })
+    }
+  },
+  deactivated () {
+    console.log('dddxxxxxxxxxx')
   }
 }
 </script>

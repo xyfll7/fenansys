@@ -52,9 +52,11 @@ export default {
     })
   },
   methods: {
-
     validate () {
       this.$refs['ruleForm'].validate(() => { })
+    },
+    resetform () {
+      this.$refs['ruleForm'].resetFields()
     },
 
     handleAvatarSuccess (res, file) {
@@ -62,9 +64,7 @@ export default {
       PubSub.publish('avatar', { avatarURL: res.filename })
       this.imageUrl = URL.createObjectURL(file.raw)
     },
-    resetform () {
-      this.$refs['ruleForm'].resetFields()
-    },
+
     beforeAvatarUpload (file) {
       const isJPG = file.type === 'image/jpeg'
 
