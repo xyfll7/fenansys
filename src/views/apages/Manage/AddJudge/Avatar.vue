@@ -28,7 +28,7 @@ export default {
       if (this.avatarURL) {
         callback()
       }
-      callback(new Error('法官照片不能为空'))
+      callback(new Error(this.message))
     }
     return {
       action: `${process.env.VUE_APP_BASE_API}api/v1/avatar/avatar`,
@@ -38,12 +38,12 @@ export default {
           { required: true, validator: checkAvatar }
         ]
       },
-      avatarURL: ''
+      avatarURL: '',
+      message: ''
     }
   },
   created () {
     PubSub.subscribe('validate', (msg, avatarURL) => {
-      console.log(msg)
       this.avatarURL = avatarURL
       this.validate()
     })
@@ -53,6 +53,7 @@ export default {
   },
   methods: {
     validate () {
+      this.message = '法官照片不能为空'
       this.$refs['ruleForm'].validate(() => { })
     },
     resetform () {
@@ -70,13 +71,14 @@ export default {
 
       const isLt2M = file.size / 1024 / 1024 < 2
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
+        this.message = '上传头像图片只能是 JPG 格式!'
+        this.$refs['ruleForm'].validate(() => { })
       }
 
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!')
+        this.message = '上传头像图片大小不能超过 2MB!'
+        this.$refs['ruleForm'].validate(() => { })
       }
-
       return isJPG && isLt2M
     }
   }

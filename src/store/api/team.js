@@ -1,19 +1,17 @@
 import api from '@/store/api'
 
-export function addTeam(data) {
-  return api({
+export const addTeam = data =>
+  api({
     url: '/team/add',
     method: 'post',
     data
   })
-}
 
-export function getTeams() {
-  return api({
+export const getTeams = () =>
+  api({
     url: '/team/get',
     method: 'get'
   })
-}
 
 export const deleteTeam = data =>
   api({

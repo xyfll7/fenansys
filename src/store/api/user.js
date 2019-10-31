@@ -1,25 +1,21 @@
 import api from '@/store/api'
 
-export function login(data) {
-  return api({
+export const login = data =>
+  api({
     url: '/user/login',
     method: 'post',
     data
   })
-}
-
-export function getUserInfo(token) {
-  return api({
+export const getUserInfo = token =>
+  api({
     url: '/user/info',
     method: 'get',
     headers: { Authorization: token }
   })
-}
 
-export function logout() {
-  return api({
+export const logout = () =>
+  api({
     url: '/user/logout',
     method: 'post'
   })
-}
 // 抄完

@@ -16,6 +16,7 @@ const Test = async ctx => {
  */
 const Add = async ctx => {
   try {
+    console.log(ctx.request.body)
     const team = ctx.request.body
     const res = await Team.create(team)
     ctx.body = {
