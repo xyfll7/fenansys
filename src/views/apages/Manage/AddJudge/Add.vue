@@ -142,9 +142,8 @@ export default {
     submitForm (formName) {
       PubSub.publish('validate', this.ruleForm.avatar)
       this.$refs[formName].validate(valid => {
-        console.log('KK')
         if (valid && this.ruleForm.avatar) {
-          alert('submit!')
+          console.log(this.ruleForm)
         } else {
           console.log('error submit!!')
           return false

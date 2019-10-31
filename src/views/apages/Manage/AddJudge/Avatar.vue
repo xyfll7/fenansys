@@ -125,5 +125,6 @@ export default {
   width: 221px;
   height: 310px;
   display: block;
+  object-fit: cover;
 }
 </style>

@@ -89,7 +89,7 @@ const actions = {
       commit('SET_ROLES', [])
       removeToken()
       resolve()
-    }).catch(() => {})
+    })
   }
 }
 

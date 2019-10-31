@@ -95,7 +95,8 @@ const Info = async ctx => {
   } catch (err) {
     if (err.name === 'TokenExpiredError') {
       ctx.body = {
-        code: Code.TOKEN_EXPIRES
+        code: Code.TOKEN_EXPIRES,
+        message: '登陆超时，请重新登陆'
       }
     } else {
       ctx.throw(401, err)

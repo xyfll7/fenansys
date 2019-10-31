@@ -26,9 +26,6 @@ export default {
     if (this.$route.path !== '/addjudge') {
       this.$router.push({ path: '/addjudge' }).then(() => { })
     }
-  },
-  deactivated () {
-    console.log('dddxxxxxxxxxx')
   }
 }
 </script>
