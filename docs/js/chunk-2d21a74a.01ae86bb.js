@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d21a74a"],{bc1d:function(t,e,a){"use strict";a.r(e);var n=function(){var t=this,e=t.$createElement,a=t._self._c||e;return a("el-menu",{staticClass:"el-menu-vertical-demo",attrs:{"default-active":"2"}},[a("el-menu-item",{attrs:{index:"4"}},[a("i",{staticClass:"el-icon-setting"}),a("span",{attrs:{slot:"title"},slot:"title"},[t._v("导航四")])])],1)},l=[],s={name:"TeamNav"},i=s,c=a("2877"),u=Object(c["a"])(i,n,l,!1,null,null,null);e["default"]=u.exports}}]);
-//# sourceMappingURL=chunk-2d21a74a.01ae86bb.js.map

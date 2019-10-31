@@ -82,7 +82,7 @@ export const constantRoutes = [
           {
             path: '/addjudge',
             name: 'addjudge',
-            meta: { title: '新增法官', keepAlive: true },
+            meta: { title: '新增法官' },
             component: () => import('@/views/apages/Manage/AddJudge')
           },
           {

@@ -58,6 +58,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import dcopy from 'deep-copy'
+import PubSub from 'pubsub-js'
 export default {
   name: 'Add',
   data () {
@@ -111,6 +112,9 @@ export default {
   },
   created () {
     this.storeTeams = dcopy(this.teams)
+    PubSub.subscribe('avatar', (msg, { avatarURL }) => {
+      this.ruleForm.avatar = avatarURL
+    })
   },
   methods: {
     addTeam () {
@@ -136,9 +140,10 @@ export default {
     },
 
     submitForm (formName) {
-      this.$emit('validate')
+      PubSub.publish('validate', this.ruleForm.avatar)
       this.$refs[formName].validate(valid => {
-        if (valid) {
+        console.log('KK')
+        if (valid && this.ruleForm.avatar) {
           alert('submit!')
         } else {
           console.log('error submit!!')
@@ -147,8 +152,8 @@ export default {
       })
     },
     resetForm (formName) {
+      PubSub.publish('resetform')
       this.$refs[formName].resetFields()
-      this.$emit('resetform')
     }
   }
 }

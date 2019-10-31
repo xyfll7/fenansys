@@ -3,7 +3,7 @@
     <el-container>
       <Nav />
       <transition name="fade-transform" mode="out-in">
-        <keep-alive include="AddJudge">
+        <keep-alive>
           <router-view />
         </keep-alive>
       </transition>

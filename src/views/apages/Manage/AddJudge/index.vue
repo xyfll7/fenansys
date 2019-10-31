@@ -6,10 +6,10 @@
     </el-row>
     <el-row type="flex" justify="center">
       <el-col :xs="10" :sm="9" :md="8" :lg="6" :xl="6">
-        <Avatar ref="avatar" />
+        <Avatar />
       </el-col>
       <el-col :xs="19" :sm="15" :md="13" :lg="9" :xl="7">
-        <Add @validate="validate" @resetform="resetform" />
+        <Add />
       </el-col>
     </el-row>
   </el-row>
@@ -21,14 +21,6 @@ export default {
     Title: () => import('../../Title'),
     Avatar: () => import('./Avatar'),
     Add: () => import('./Add')
-  },
-  methods: {
-    validate () {
-      this.$refs.avatar.validate()
-    },
-    resetform () {
-      this.$refs.avatar.resetform()
-    }
   }
 }
 </script>

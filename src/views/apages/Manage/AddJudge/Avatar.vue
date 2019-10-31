@@ -20,13 +20,12 @@
   </div>
 </template>
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import PubSub from 'pubsub-js'
 export default {
   name: 'Avatar',
   data () {
     const checkAvatar = (rule, value, callback) => {
-      console.log('D', this.avatar)
-      if (this.avatar) {
+      if (this.avatarURL) {
         callback()
       }
       callback(new Error('法官照片不能为空'))
@@ -38,21 +37,29 @@ export default {
         avatar: [
           { required: true, validator: checkAvatar }
         ]
-      }
+      },
+      avatarURL: ''
     }
   },
-  computed: {
-    ...mapGetters(['avatar'])
+  created () {
+    PubSub.subscribe('validate', (msg, avatarURL) => {
+      console.log(msg)
+      this.avatarURL = avatarURL
+      this.validate()
+    })
+    PubSub.subscribe('resetform', () => {
+      this.resetform()
+    })
   },
   methods: {
-    ...mapMutations(['judge/SET_AVATAR']),
+
     validate () {
       this.$refs['ruleForm'].validate(() => { })
     },
 
     handleAvatarSuccess (res, file) {
-      this['judge/SET_AVATAR'](res.filename)
       this.resetform()
+      PubSub.publish('avatar', { avatarURL: res.filename })
       this.imageUrl = URL.createObjectURL(file.raw)
     },
     resetform () {
