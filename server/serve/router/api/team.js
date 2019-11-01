@@ -7,7 +7,7 @@ router
   .prefix('/team')
   .post('/add', Team.Add)
   .get('/get', Team.Get)
+  .put('/update', Team.Update)
   .delete('/delete', Team.Delete)
-  .post('/update', Team.Update)
 
 module.exports = router

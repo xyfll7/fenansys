@@ -49,7 +49,7 @@ service.interceptors.response.use(
           .catch(() => {})
       }
       console.log('axios失败')
-      return Promise.reject(new Error(res.message || 'Error'))
+      return Promise.reject(new Error(res.message || 'Error~~'))
     } else {
       console.log('axios成功')
       return res

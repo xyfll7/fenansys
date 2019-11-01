@@ -1,7 +1,7 @@
 {
   "name": "serve",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "serve.js",
   "license": "MIT",
   "dependencies": {
     "@koa/cors": "^3.0.0",

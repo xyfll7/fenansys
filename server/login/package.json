@@ -2,7 +2,7 @@
   "name": "login",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "login.js",
   "scripts": {
     "start": "export NODE_ENV=development && nodemon login.js",
     "serve": "export NODE_ENV=production && pm2 start login.js --watch",
