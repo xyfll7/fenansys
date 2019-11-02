@@ -2,7 +2,7 @@
   <div>
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
       <el-form-item label="法官姓名" prop="name">
-        <el-input v-model="ruleForm.name"></el-input>
+        <el-input v-model="ruleForm.name" @focus="clear"></el-input>
       </el-form-item>
       <el-form-item label="法官职务" prop="position">
         <el-input v-model="ruleForm.position"></el-input>
@@ -20,8 +20,11 @@
       </el-form-item>
       <!-- 办案团队⬇⬇⬇ -->
       <div v-for="(team, index) in ruleForm.teams" :key="index" style="display:flex">
-        <el-form-item :label="`办案团队[${index+1}]`" :prop="`name${index}`">
-          <el-input v-model.number="team.numberOfCasesHandled[0]" placeholder="初始办案数量">
+        <el-form-item :label="`办案团队[${index+1}]`" :prop="`team${index}`">
+          <el-input
+            v-model.number="team.numberOfCasesHandled[new Date().getMonth()]"
+            placeholder="初始办案数量"
+          >
             <!-- 选择团队⬇⬇⬇ -->
             <el-select
               v-model="team.name"
@@ -30,13 +33,12 @@
               placeholder="请选择办案团队"
             >
               <el-option
-                v-for="(team,index) in storeTeams"
-                :key="index"
+                v-for="team in storeTeams"
+                :key="team._id"
                 :label="team.name"
                 :value="team.name"
               ></el-option>
             </el-select>
-
             <!-- 选择团队⬆⬆⬆ -->
           </el-input>
         </el-form-item>
@@ -56,12 +58,26 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import dcopy from 'deep-copy'
 import PubSub from 'pubsub-js'
+const team = { _id: '', name: '', numberOfCasesHandled: [null, null, null, null, null, null, null, null, null, null, null, null] }
 export default {
   name: 'Add',
   data () {
+    const checkName = (rule, value, callback) => {
+      console.log(!this.nameError)
+      if (this.nameError) {
+        callback(new Error(this.nameError))
+      }
+      if (!value) {
+        callback(new Error('法官姓名必须填写'))
+      }
+      if (value.length < 2 || value.length > 8) {
+        callback(new Error('法官姓名长度至少2个字符，最大8个字符'))
+      }
+      callback()
+    }
     const checkTel = (rule, value, callback) => {
       const tel = value ? value.toString() : 0
       if (tel.length !== 11) {
@@ -73,11 +89,11 @@ export default {
         callback()
       }
     }
-    const checkTeamName = (rule, value, callback) => {
+    const checkTeam = (rule, value, callback) => {
       const i = parseInt(rule.field.charAt(rule.field.length - 1))
       let isVlidate = true
       let message = ''
-      const val = this.ruleForm.teams[i].numberOfCasesHandled[0]
+      const val = this.ruleForm.teams[i].numberOfCasesHandled[new Date().getMonth()]
       if (this.ruleForm.teams[i].name === '') {
         message = '团队不能为空'
       }
@@ -95,16 +111,25 @@ export default {
       }
     }
     return {
-      ruleForm: { name: '', position: '', tel: undefined, office: '', proportion: 1, teams: [{ name: '', numberOfCasesHandled: [] }], avatar: '' },
+      nameError: '',
+      storeTeams: [],
+      ruleForm: {
+        name: '闰土',
+        position: '渔民',
+        tel: undefined || 18892891128,
+        office: '绍兴',
+        proportion: 1,
+        teams: [dcopy(team)],
+        avatar: '9942'
+      },
       rules: {
-        name: [{ required: true, message: '请输入法官名称', trigger: 'blur' }, { min: 2, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }],
+        name: [{ required: true, validator: checkName, trigger: 'blur' }],
         position: [{ required: true, message: '请输入法官职务', trigger: 'blur' }, { min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }],
         tel: [{ required: true, validator: checkTel, trigger: 'blur' }],
         office: [{ required: true, message: '请输入办公室', trigger: 'blur' }],
         proportion: [{ required: true, message: '请输入分案比例' }, { type: 'number', message: '分案比例必须位数字' }],
-        name0: [{ required: true, validator: checkTeamName }]
-      },
-      storeTeams: []
+        team0: [{ required: true, validator: checkTeam }]
+      }
     }
   },
   computed: {
@@ -116,12 +141,26 @@ export default {
       this.ruleForm.avatar = avatarURL
     })
   },
+  watch: {
+    'ruleForm.teams': {
+      handler: function (val) {
+        val.forEach((item, index) => {
+          const res = this.storeTeams.filter(team => item.name === team.name)
+          if (res[0]) {
+            item._id = res[0]._id
+          }
+        })
+      },
+      deep: true
+    }
+  },
   methods: {
+    ...mapActions(['judge/addJudge']),
     addTeam () {
       const len = this.ruleForm.teams.length
       if (len < 4) {
-        this.ruleForm.teams.push({ name: '', numberOfCasesHandled: [] })
-        this.rules[`name${len}`] = this.rules.name0
+        this.ruleForm.teams.push(dcopy(team))
+        this.rules[`team${len}`] = this.rules.team0
       }
     },
     removeTeam (index) {
@@ -138,12 +177,19 @@ export default {
         return isEqual
       })
     },
-
     submitForm (formName) {
+      // 清空姓名错误信息
+      this.nameError = ''
+      // 调用Avatar.vue 的 validate 方法验证头是否填写正确。
       PubSub.publish('validate', this.ruleForm.avatar)
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate(async valid => {
         if (valid && this.ruleForm.avatar) {
-          console.log(this.ruleForm)
+          try {
+            await this['judge/addJudge'](this.ruleForm)
+          } catch (err) {
+            this.nameError = err.message
+            this.$refs[formName].validate(() => { })
+          }
         } else {
           console.log('error submit!!')
           return false
@@ -151,13 +197,16 @@ export default {
       })
     },
     resetForm (formName) {
+      // 调用Avatar.vue中的 resetform 方法
       PubSub.publish('resetform')
       this.$refs[formName].resetFields()
+    },
+    clear () {
+      this.nameError = ''
     }
   }
 }
 </script>
-
 <style scoped>
 .el-select {
   width: 190px;

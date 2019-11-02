@@ -5,7 +5,8 @@ const TeamSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true
-  }
+  },
+  mumbers: [String]
 })
 
 module.exports = mongoose.model('teams', TeamSchema)

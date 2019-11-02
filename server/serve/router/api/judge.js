@@ -4,7 +4,7 @@ const Judge = require('../../controllers/judge')
 const router = new Router()
 
 router
-  .prefix('/team')
+  .prefix('/judge')
   .post('/add', Judge.Add)
   .get('/get', Judge.Get)
   .put('/update', Judge.Update)

@@ -1,4 +1,4 @@
-import { addJudge } from '@/store/api'
+import { addJudge } from '@/store/api/judge'
 const state = {
   judges: []
 }

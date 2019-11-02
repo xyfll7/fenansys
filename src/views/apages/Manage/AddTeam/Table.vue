@@ -137,7 +137,6 @@ export default {
           this.editIndex = undefined
         }
       } catch (err) {
-        console.log('YYY', err)
         this.prompt = true
         this.duplicate = err.message
       }

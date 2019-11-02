@@ -16,7 +16,6 @@ const Test = async ctx => {
  */
 const Add = async ctx => {
   try {
-    console.log(ctx.request.body)
     const team = ctx.request.body
     const res = await Team.create(team)
     ctx.body = {
@@ -28,7 +27,7 @@ const Add = async ctx => {
       const { name } = ctx.request.body
       ctx.body = {
         code: Code.SUCCESS,
-        message: `${name}团队已经存在，请不要重复添加`
+        message: `"${name}"团队已经存在，请不要重复添加`
       }
     } else {
       ctx.body = {
