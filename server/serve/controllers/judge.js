@@ -18,31 +18,39 @@ const Test = async ctx => {
  * @param {*} ctx
  */
 const Add = async ctx => {
-  console.log('sss')
-  const session = await DB.startSession({ readPreference: 'primary' })
-  try {
-    await session.startTransaction({ readConcern: { level: 'snapshot' }, writeConcern: { w: 'majority' } })
-    const judge = ctx.request.body
-    const { teams, name } = judge
-    const res0 = await Judge.create([judge], { session })
+  const session = await DB.startSession()
+  const judge = ctx.request.body
+  const { teams } = judge
+  const filters = {
+    $or: teams.map(team => {
+      const { _id } = team
+      return { _id }
+    })
+  }
 
-    const filters = {
-      $or: teams.map(team => {
-        const { _id } = team
-        return { _id }
-      })
-    }
-    console.log(filters)
-    const update = { $addToSet: { members: name } }
-    const res1 = await Team.updateMany(filters, update, { session })
-    console.log('H', res1)
-    ctx.body = {
-      code: Code.SUCCESS,
-      data: res0
+  try {
+    // https://docs.mongodb.com/master/core/transactions/#general-information
+    await session.startTransaction({
+      readPreference: 'primary',
+      readConcern: { level: 'snapshot' },
+      writeConcern: { w: 'majority' }
+    })
+    const [judge0] = await Judge.create([judge], { session })
+    const { name, _id } = judge0
+    const update = { $addToSet: { members: { name, _id } } }
+    const { n, nModified, ok } = await Team.updateMany(filters, update, { session })
+    if (n === nModified && nModified === teams.length && ok) {
+      ctx.body = {
+        code: Code.SUCCESS,
+        data: judge0
+      }
+      await session.commitTransaction()
+    } else {
+      throw new Error('添加法官失败，请重试')
     }
   } catch (err) {
-    session.abortTransaction()
-    console.log('K', err)
+    console.log(err)
+    await session.abortTransaction()
     if (err.code === 11000) {
       const { name } = ctx.request.body
       ctx.body = {
@@ -50,14 +58,14 @@ const Add = async ctx => {
         message: `"${name}"法官已经存在，请不要重复添加`
       }
     } else {
+      const { message } = err
       ctx.body = {
         code: Code.BUSINESS_ERROR,
-        massage: '添加法官失败，请重试'
+        message
       }
     }
   } finally {
-    console.log('endSession~!@')
-    session.endSession()
+    await session.endSession()
   }
 }
 /**
