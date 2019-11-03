@@ -1,7 +1,8 @@
 const Code = require('../../code')
-const db = require('mongoose')
+const DB = require('mongoose')
 const Judge = require('../modules/judge')
 const Team = require('../modules/team')
+
 /**
  * 测试
  */
@@ -17,33 +18,30 @@ const Test = async ctx => {
  * @param {*} ctx
  */
 const Add = async ctx => {
-  // const session = await db.startSession()
-  // await session.startTransaction({
-  //   readConcern: { level: 'snapshot' },
-  //   writeConcern: { w: 'majority' },
-  //   readPreference: 'primary'
-  // })
+  console.log('sss')
+  const session = await DB.startSession({ readPreference: 'primary' })
   try {
+    await session.startTransaction({ readConcern: { level: 'snapshot' }, writeConcern: { w: 'majority' } })
     const judge = ctx.request.body
-    const res0 = await Judge.create(judge)
+    const { teams, name } = judge
+    const res0 = await Judge.create([judge], { session })
 
-    const teams = []
     const filters = {
-      $or: []
+      $or: teams.map(team => {
+        const { _id } = team
+        return { _id }
+      })
     }
-    judge.teams.forEach(item => {
-      teams.push({ $addToSet: { mumbers: [judge.name] } })
-      filters.$or.push({ name: item.name })
-    })
     console.log(filters)
-    const res1 = Team.updateMany(filters, teams, {})
-    console.log('J', res0)
+    const update = { $addToSet: { members: name } }
+    const res1 = await Team.updateMany(filters, update, { session })
     console.log('H', res1)
     ctx.body = {
       code: Code.SUCCESS,
       data: res0
     }
   } catch (err) {
+    session.abortTransaction()
     console.log('K', err)
     if (err.code === 11000) {
       const { name } = ctx.request.body
@@ -57,6 +55,9 @@ const Add = async ctx => {
         massage: '添加法官失败，请重试'
       }
     }
+  } finally {
+    console.log('endSession~!@')
+    session.endSession()
   }
 }
 /**
