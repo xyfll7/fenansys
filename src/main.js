@@ -6,7 +6,8 @@ import store from './store'
 import '@/plugins/element.js' // element
 
 import '@/router/permission' // permission control
-import '@/assets/icon/iconfont.css'
+import '@/assets/icon/tuandui/iconfont.css'
+import '@/assets/icon/wenhao/iconfont.css'
 
 Vue.config.productionTip = false
 

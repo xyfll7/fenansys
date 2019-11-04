@@ -3,11 +3,12 @@
     <el-form :model="{}" :rules="rules" ref="ruleForm" inline>
       <el-form-item prop="avatar">
         <el-upload
-          class="avatar-uploader"
+          :class="{'avatar-uploader':'avatar-uploader', disabled: success? 'disabled':''}"
           :action="action"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
+          :disabled="success"
         >
           <img v-if="imageUrl" :src="imageUrl" class="avatar" />
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -31,6 +32,7 @@ export default {
       callback(new Error(this.message))
     }
     return {
+      success: false,
       action: `${process.env.VUE_APP_BASE_API}api/v1/avatar/avatar`,
       imageUrl: '',
       rules: {
@@ -44,11 +46,17 @@ export default {
   },
   created () {
     PubSub.subscribe('validate', (msg, avatarURL) => {
+      console.log(avatarURL)
       this.avatarURL = avatarURL
       this.validate()
     })
     PubSub.subscribe('resetform', () => {
       this.resetform()
+      this.success = false
+      this.imageUrl = ''
+    })
+    PubSub.subscribe('success', () => {
+      this.success = true
     })
   },
   methods: {
@@ -95,6 +103,20 @@ export default {
   justify-content: center;
   width: 16px;
   margin-top: 15px;
+  margin-right: 10px;
+}
+
+.disabled .el-upload {
+  background: #f5f7fa;
+  opacity: 0.4;
+  border: 1px solid #e4e7ed;
+  border-radius: 6px;
+  cursor: not-allowed !important;
+  overflow: hidden;
+  width: 221px;
+  height: 310px;
+  justify-content: center;
+  flex-direction: column;
   margin-right: 10px;
 }
 

@@ -31,29 +31,38 @@
       <el-table-column label="团队成员">
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="top">
-            <p>姓名: {{ scope.row.name }}</p>
-            <p>住址: {{ scope.row.member }}</p>
+            <p>团队: {{ scope.row.name }}</p>
+            <p>成员: {{ scope.row.members | membersPopover }}</p>
             <div slot="reference" class="name-wrapper">
-              <el-tag size="medium">{{ scope.row.members }}</el-tag>
+              <el-tag size="medium">{{ scope.row.members | members }}</el-tag>
             </div>
           </el-popover>
         </template>
       </el-table-column>
       <el-table-column align="right">
         <template v-slot:header>
-          <i class="el-icon-finished"></i>
+          <el-popover trigger="hover">
+            <p>提示：</p>
+            <p>团队中一旦有成员，则禁止编辑或删除团队</p>
+            <div slot="reference" class="name-wrapper">
+              操作
+              <i class="el-icon-question"></i>
+            </div>
+          </el-popover>
         </template>
         <template slot-scope="scope">
           <el-button
             v-if="editIndex+1 === scope.$index+1 ? false : true "
             size="mini"
             @click="editTeam(scope.$index, scope.row, $event)"
+            :disabled="scope.row.members.length? true: false"
           >编辑</el-button>
           <el-button
             v-if="editIndex+1 === scope.$index+1 ? false : true "
             size="mini"
             type="danger"
             @click="deleteTeam(scope.$index, scope.row)"
+            :disabled="scope.row.members.length? true: false"
           >删除</el-button>
           <el-button
             v-if="editIndex+1 === scope.$index+1 ? true : false "
@@ -98,6 +107,27 @@ export default {
       set (value) {
         this.name = value
       }
+    }
+  },
+  filters: {
+    members (value) {
+      let str = ''
+      if (!value.length) {
+        str = '~~团中没有成员~~'
+        return str
+      }
+
+      value.forEach(item => { str += `${item.name}、` })
+      return str.substr(0, str.length - 1)
+    },
+    membersPopover (value) {
+      let str = ''
+      if (!value.length) {
+        str = '~~团中没有成员~~'
+        return str
+      }
+      value.forEach(item => { str += `${item.name}、` })
+      return str.substr(0, str.length - 1)
     }
   },
   mounted () {
@@ -157,9 +187,12 @@ export default {
 }
 </script>
 <style scoped>
-/** 表头图标 */
-.el-icon-finished {
-  font-size: 20px;
+/**表头问号图标调整 */
+.el-table th div {
+  line-height: 33px;
+}
+.el-table /deep/ .is-leaf {
+  padding: 0px !important;
 }
 /** 表格 */
 .el-table {
@@ -176,7 +209,6 @@ export default {
 /**表格行高 */
 .el-table /deep/ .el-popover__reference {
   padding: 0px;
-  height: 28px;
 }
 /** 表格滚动条 */
 .el-table /deep/ .el-table__header-wrapper .gutter {

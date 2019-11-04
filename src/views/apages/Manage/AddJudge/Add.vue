@@ -2,20 +2,25 @@
   <div>
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
       <el-form-item label="法官姓名" prop="name">
-        <el-input v-model="ruleForm.name" @focus="clear"></el-input>
+        <el-input v-model="ruleForm.name" @focus="clear" :disabled="success"></el-input>
       </el-form-item>
       <el-form-item label="法官职务" prop="position">
-        <el-input v-model="ruleForm.position"></el-input>
+        <el-input v-model="ruleForm.position" :disabled="success"></el-input>
       </el-form-item>
       <el-form-item label="联系电话" prop="tel">
-        <el-input v-model.number="ruleForm.tel"></el-input>
+        <el-input v-model.number="ruleForm.tel" :disabled="success"></el-input>
       </el-form-item>
       <el-form-item label="办公室" prop="office">
-        <el-input v-model="ruleForm.office"></el-input>
+        <el-input v-model="ruleForm.office" :disabled="success"></el-input>
       </el-form-item>
       <el-form-item label="分案比例" prop="proportion">
         <div style="display:flex">
-          <el-input-number v-model.number="ruleForm.proportion" :min="1" :max="10"></el-input-number>
+          <el-input-number
+            v-model.number="ruleForm.proportion"
+            :disabled="success"
+            :min="1"
+            :max="10"
+          ></el-input-number>
         </div>
       </el-form-item>
       <!-- 办案团队⬇⬇⬇ -->
@@ -24,6 +29,7 @@
           <el-input
             v-model.number="team.numberOfCasesHandled[new Date().getMonth()]"
             placeholder="初始办案数量"
+            :disabled="success"
           >
             <!-- 选择团队⬇⬇⬇ -->
             <el-select
@@ -31,6 +37,7 @@
               slot="prepend"
               @visible-change="autoRemoveSelectedTeam"
               placeholder="请选择办案团队"
+              :disabled="success"
             >
               <el-option
                 v-for="team in storeTeams"
@@ -44,15 +51,17 @@
         </el-form-item>
         <i style="margin-left:10px">
           <el-button v-if="index !== 0" @click.prevent="removeTeam(index)">删除</el-button>
-          <el-button v-if="index === 0" @click.prevent="addTeam()">添加</el-button>
+          <el-button v-if="index === 0" @click.prevent="addTeam()" :disabled="success">添加</el-button>
         </i>
       </div>
       <!-- 办案团队⬆⬆⬆ -->
     </el-form>
     <div class="end">
-      <el-button>取消</el-button>
-      <el-button @click="resetForm('ruleForm')">重置</el-button>
-      <el-button @click="submitForm('ruleForm')" type="primary">立即提交</el-button>
+      <el-button v-if="success" type="success">✨法官添加成功✨</el-button>
+      <el-button v-if="success" type="success" @click="resetForm('ruleForm')" plain>继续添加</el-button>
+      <el-button plain>取消返回</el-button>
+      <el-button v-if="!success" type="warning" @click="resetForm('ruleForm')" plain>重置表单</el-button>
+      <el-button v-if="!success" type="primary" @click="submitForm('ruleForm')">立即提交</el-button>
     </div>
   </div>
 </template>
@@ -111,16 +120,17 @@ export default {
       }
     }
     return {
+      success: false,
       nameError: '',
       storeTeams: [],
       ruleForm: {
         name: '闰土',
         position: '渔民',
-        tel: undefined || 18892891128,
-        office: '绍兴',
+        tel: undefined || 17786867754,
+        office: '鱼篷',
         proportion: 1,
         teams: [dcopy(team)],
-        avatar: '9942'
+        avatar: ''
       },
       rules: {
         name: [{ required: true, validator: checkName, trigger: 'blur' }],
@@ -186,6 +196,8 @@ export default {
         if (valid && this.ruleForm.avatar) {
           try {
             await this['judge/addJudge'](this.ruleForm)
+            this.success = true
+            PubSub.publish('success')
           } catch (err) {
             this.nameError = err.message
             this.$refs[formName].validate(() => { })
@@ -199,6 +211,9 @@ export default {
     resetForm (formName) {
       // 调用Avatar.vue中的 resetform 方法
       PubSub.publish('resetform')
+      this.success = false
+      this.ruleForm.teams = [dcopy(team)]
+      this.ruleForm.avatar = ''
       this.$refs[formName].resetFields()
     },
     clear () {
