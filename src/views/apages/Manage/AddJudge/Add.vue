@@ -124,10 +124,10 @@ export default {
       nameError: '',
       storeTeams: [],
       ruleForm: {
-        name: '闰土',
-        position: '渔民',
-        tel: undefined || 17786867754,
-        office: '鱼篷',
+        name: '',
+        position: '',
+        tel: undefined,
+        office: '',
         proportion: 1,
         teams: [dcopy(team)],
         avatar: ''
