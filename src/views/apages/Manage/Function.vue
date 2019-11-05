@@ -34,4 +34,3 @@ export default {
   mixins: [isActive]
 }
 </script>
-<style scoped >

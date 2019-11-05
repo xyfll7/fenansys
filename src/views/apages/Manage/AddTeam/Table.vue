@@ -62,7 +62,7 @@
             size="mini"
             type="danger"
             @click="deleteTeam(scope.$index, scope.row)"
-            :disabled="scope.row.members.length? true: false"
+            :disabled="scope.row.members.length ? true: false"
           >删除</el-button>
           <el-button
             v-if="editIndex+1 === scope.$index+1 ? true: false "
