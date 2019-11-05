@@ -11,30 +11,27 @@
         ></el-autocomplete>
       </transition>
     </a>
+
     <router-link to="/judge">
-      <el-button
-        :class="$route.matched[2] ? ($route.matched[2].path === '/judge'? 'is-active':'') :''"
-      >法官信息</el-button>
+      <el-button :class="{'is-active': isActive('/judge')}" plain>法官信息</el-button>
     </router-link>
     <router-link to="/addjudge">
-      <el-button
-        :class="$route.matched[2] ? ($route.matched[2].path === '/addjudge'? 'is-active':'') :''"
-      >
+      <el-button :class="{'is-active': isActive('/addjudge')}" plain>
         <i class="el-icon-plus"></i>法官管理
       </el-button>
     </router-link>
     <router-link to="/addteam">
-      <el-button
-        :class="$route.matched[2] ? ($route.matched[2].path === '/addteam'? 'is-active':'') :''"
-      >
+      <el-button :class="{'is-active': isActive('/addteam')}" plain>
         <i class="el-icon-plus"></i>团队管理
       </el-button>
     </router-link>
   </div>
 </template>
 <script>
+import isActive from '@/views/mixins/isActive'
 export default {
-  name: 'Function'
+  name: 'Function',
+  mixins: [isActive]
 }
 </script>
-<style scoped src="../pages.css">
+<style scoped >

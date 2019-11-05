@@ -17,6 +17,7 @@ export default {
 </script>
 <style scoped>
 .el-card {
+  /* background: #3d76b8db; */
   background: #ffffffdb;
   overflow: auto;
 }

@@ -1,7 +1,7 @@
-.el-menu {
+/* .el-menu {
   background: rgba(0, 0, 0, 0);
   border-bottom-width: 0px !important;
-}
+} */
 
 /* .el-menu-item {
   border-bottom-width: 0px !important;
@@ -18,8 +18,45 @@
   border-bottom-width: 0px !important;
 } */
 
-.is-active {
+/* .is-active {
   color: #409eff;
   border-color: #c6e2ff;
   background-color: #ecf5ff;
+} */
+
+/** 表格⬇⬇⬇ */
+/**表头问号图标调整 */
+.el-table th div {
+  line-height: 33px;
 }
+
+.el-table /deep/ .is-leaf {
+  padding: 0px !important;
+}
+
+/** 表格 透明*/
+.el-table {
+  background: rgba(0, 0, 0, 0);
+}
+
+/** 表格行高 */
+.el-table /deep/ .el-popover__reference {
+  padding: 0px;
+}
+
+/** 表格滚动条 */
+.el-table /deep/ .el-table__header-wrapper .gutter {
+  background: rgba(0, 0, 0, 0);
+}
+
+.el-table /deep/ .el-table__body-wrapper::-webkit-scrollbar {
+  width: 7px;
+}
+
+.el-table /deep/ .el-table__body-wrapper::-webkit-scrollbar-thumb {
+  background: #77777751;
+  border-radius: 4px;
+}
+
+/** 透明 */
+/** 表格 ⬆⬆⬆*/

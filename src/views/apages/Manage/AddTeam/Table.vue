@@ -52,26 +52,26 @@
         </template>
         <template v-slot="scope">
           <el-button
-            v-if="editIndex+1 === scope.$index+1 ? false : true "
+            v-if="editIndex+1 !== scope.$index+1 ? true: false "
             size="mini"
             @click="editTeam(scope.$index, scope.row, $event)"
             :disabled="scope.row.members.length? true: false"
           >编辑</el-button>
           <el-button
-            v-if="editIndex+1 === scope.$index+1 ? false : true "
+            v-if="editIndex+1 !== scope.$index+1 ? true: false "
             size="mini"
             type="danger"
             @click="deleteTeam(scope.$index, scope.row)"
             :disabled="scope.row.members.length? true: false"
           >删除</el-button>
           <el-button
-            v-if="editIndex+1 === scope.$index+1 ? true : false "
+            v-if="editIndex+1 === scope.$index+1 ? true: false "
             size="mini"
             type="primary"
             @click="updateTeam(scope.$index, scope.row, $event)"
           >保存</el-button>
           <el-button
-            v-if="editIndex+1 === scope.$index+1 ? true : false "
+            v-if="editIndex+1 === scope.$index+1 ? true: false"
             size="mini"
             @click="cancel(scope.$index, scope.row)"
           >取消</el-button>
@@ -194,10 +194,6 @@ export default {
 .el-table /deep/ .is-leaf {
   padding: 0px !important;
 }
-/** 表格 */
-.el-table {
-  background: rgba(0, 0, 0, 0);
-}
 /**编辑框宽度 */
 .el-input {
   width: 200px;
@@ -206,7 +202,12 @@ export default {
 .prompt /deep/ .el-input__inner {
   border-color: red;
 }
-/**表格行高 */
+
+/** 表格 透明⬇⬇⬇*/
+.el-table {
+  background: rgba(0, 0, 0, 0);
+}
+/** 表格行高 */
 .el-table /deep/ .el-popover__reference {
   padding: 0px;
 }
@@ -218,7 +219,8 @@ export default {
   width: 7px;
 }
 .el-table /deep/ .el-table__body-wrapper::-webkit-scrollbar-thumb {
-  background: #77777727;
+  background: #77777751;
   border-radius: 4px;
 }
+/** 表格 透明⬆⬆⬆*/
 </style>
