@@ -26,7 +26,7 @@ const Add = async ctx => {
     if (err.code === 11000) {
       const { name } = ctx.request.body
       ctx.body = {
-        code: Code.SUCCESS,
+        code: Code.DATA_ALREADY_EXISTED,
         message: `"${name}"团队已经存在，请不要重复添加`
       }
     } else {

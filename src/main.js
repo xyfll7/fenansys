@@ -3,11 +3,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-import '@/plugins/element.js' // element
-
+import '@/plugins/element' // element
+import '@/plugins/icon'
 import '@/router/permission' // permission control
-import '@/assets/icon/tuandui/iconfont.css'
-import '@/assets/icon/wenhao/iconfont.css'
 
 Vue.config.productionTip = false
 

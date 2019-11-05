@@ -22,7 +22,7 @@ import { mapGetters } from 'vuex'
 import { removeToken } from '@/utils/auth'
 export default {
   name: 'Right',
-  data() {
+  data () {
     return {
       avatar:
         'http://img2.imgtn.bdimg.com/it/u=320178652,790985626&fm=26&gp=0.jpg'
@@ -32,7 +32,7 @@ export default {
     ...mapGetters(['user'])
   },
   methods: {
-    goToLogin() {
+    goToLogin () {
       removeToken()
     }
   }

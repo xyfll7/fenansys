@@ -65,7 +65,7 @@ const Login = async ctx => {
         id: user._id,
         name: user.name
       }
-      const token = jwt.sign(payload, config.secretOrKey, { expiresIn: 3600 })
+      const token = jwt.sign(payload, config.secretOrKey, { expiresIn: 36000 })
       ctx.body = {
         code: Code.SUCCESS,
         data: { token: 'Bearer ' + token }

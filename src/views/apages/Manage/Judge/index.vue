@@ -1,8 +1,13 @@
 <template>
-  <div>法官信息</div>
+  <div>
+    <Table />
+  </div>
 </template>
 <script>
 export default {
-  name: 'Judge'
+  name: 'Judge',
+  components: {
+    Table: () => import('./Table')
+  }
 }
 </script>

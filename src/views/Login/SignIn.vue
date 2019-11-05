@@ -76,10 +76,12 @@ export default {
           const { email, password } = this.ruleForm
           this['user/login']({ email, password })
             .then(() => {
+              console.log(this.redirect)
               this.$router.push({ path: this.redirect || '/' })
               this.loading = false
             })
             .catch(response => {
+              console.log(response)
               if (response.errors) {
                 // 点击登陆按钮后，服务器验证email账号不合法
                 if (response.errors.email) {

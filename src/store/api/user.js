@@ -6,6 +6,7 @@ export const login = data =>
     method: 'post',
     data
   })
+
 export const getUserInfo = token =>
   api({
     url: '/user/info',

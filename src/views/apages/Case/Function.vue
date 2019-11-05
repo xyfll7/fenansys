@@ -1,14 +1,14 @@
 <template>
-  <el-menu class="el-menu-demo" mode="horizontal" router>
-    <el-menu-item index="/judge">
+  <div>
+    <router-link to="/judge">
       <el-button>法官信息</el-button>
-    </el-menu-item>
-    <el-menu-item index="/addjudge">
-      <el-button size="medium">
+    </router-link>
+    <router-link to="/addjudge">
+      <el-button>
         <i class="el-icon-plus"></i>新增法官
       </el-button>
-    </el-menu-item>
-  </el-menu>
+    </router-link>
+  </div>
 </template>
 <script>
 export default {

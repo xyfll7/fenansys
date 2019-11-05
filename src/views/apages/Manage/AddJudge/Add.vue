@@ -59,7 +59,7 @@
     <div class="end">
       <el-button v-if="success" type="success">✨法官添加成功✨</el-button>
       <el-button v-if="success" type="success" @click="resetForm('ruleForm')" plain>继续添加</el-button>
-      <el-button plain>取消返回</el-button>
+      <el-button plain>返回法官信息列表</el-button>
       <el-button v-if="!success" type="warning" @click="resetForm('ruleForm')" plain>重置表单</el-button>
       <el-button v-if="!success" type="primary" @click="submitForm('ruleForm')">立即提交</el-button>
     </div>
@@ -69,7 +69,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import dcopy from 'deep-copy'
-import PubSub from 'pubsub-js'
+import { Bus, ADDJUDGE } from '@/utils/bus'
 const team = { _id: '', name: '', numberOfCasesHandled: [null, null, null, null, null, null, null, null, null, null, null, null] }
 export default {
   name: 'Add',
@@ -124,13 +124,13 @@ export default {
       nameError: '',
       storeTeams: [],
       ruleForm: {
-        name: '',
-        position: '',
-        tel: undefined,
-        office: '',
+        name: '闰土',
+        position: '渔民',
+        tel: undefined || 19978663462,
+        office: '渔村',
         proportion: 1,
         teams: [dcopy(team)],
-        avatar: ''
+        avatar: '994'
       },
       rules: {
         name: [{ required: true, validator: checkName, trigger: 'blur' }],
@@ -147,7 +147,8 @@ export default {
   },
   created () {
     this.storeTeams = dcopy(this.teams)
-    PubSub.subscribe('avatar', (msg, { avatarURL }) => {
+    Bus.$on(ADDJUDGE.AVATAR, ({ avatarURL }) => {
+      console.log('SS', avatarURL)
       this.ruleForm.avatar = avatarURL
     })
   },
@@ -191,13 +192,13 @@ export default {
       // 清空姓名错误信息
       this.nameError = ''
       // 调用Avatar.vue 的 validate 方法验证头是否填写正确。
-      PubSub.publish('validate', this.ruleForm.avatar)
+      Bus.$emit(ADDJUDGE.VALIDATE, this.ruleForm.avatar)
       this.$refs[formName].validate(async valid => {
         if (valid && this.ruleForm.avatar) {
           try {
             await this['judge/addJudge'](this.ruleForm)
             this.success = true
-            PubSub.publish('success')
+            Bus.$emit(ADDJUDGE.SUCCESS)
           } catch (err) {
             this.nameError = err.message
             this.$refs[formName].validate(() => { })
@@ -210,7 +211,7 @@ export default {
     },
     resetForm (formName) {
       // 调用Avatar.vue中的 resetform 方法
-      PubSub.publish('resetform')
+      Bus.$emit(ADDJUDGE.RESETFORM)
       this.success = false
       this.ruleForm.teams = [dcopy(team)]
       this.ruleForm.avatar = ''

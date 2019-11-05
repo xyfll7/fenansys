@@ -21,7 +21,7 @@
   </div>
 </template>
 <script>
-import PubSub from 'pubsub-js'
+import { Bus, ADDJUDGE } from '@/utils/bus'
 export default {
   name: 'Avatar',
   data () {
@@ -45,17 +45,17 @@ export default {
     }
   },
   created () {
-    PubSub.subscribe('validate', (msg, avatarURL) => {
+    Bus.$on(ADDJUDGE.VALIDATE, (avatarURL) => {
       console.log(avatarURL)
       this.avatarURL = avatarURL
       this.validate()
     })
-    PubSub.subscribe('resetform', () => {
+    Bus.$on(ADDJUDGE.RESETFORM, () => {
       this.resetform()
       this.success = false
       this.imageUrl = ''
     })
-    PubSub.subscribe('success', () => {
+    Bus.$on(ADDJUDGE.SUCCESS, () => {
       this.success = true
     })
   },
@@ -70,7 +70,8 @@ export default {
 
     handleAvatarSuccess (res, file) {
       this.resetform()
-      PubSub.publish('avatar', { avatarURL: res.filename })
+      console.log(res.filename)
+      Bus.$emit(ADDJUDGE.AVATAR, { avatarURL: res.filename })
       this.imageUrl = URL.createObjectURL(file.raw)
     },
 

@@ -1,12 +1,12 @@
 <template>
-  <el-menu class="el-menu-demo" mode="horizontal" router>
-    <el-menu-item index="/judge">
+  <div>
+    <router-link to="/judge">
       <el-button>随机分案</el-button>
-    </el-menu-item>
-    <el-menu-item index="/addjudge">
+    </router-link>
+    <router-link to="/addjudge">
       <el-button>指定分案</el-button>
-    </el-menu-item>
-  </el-menu>
+    </router-link>
+  </div>
 </template>
 <script>
 export default {

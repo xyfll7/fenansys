@@ -2,6 +2,9 @@ import { login, logout, getUserInfo } from '@/store/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
+const SET_ROLES = 'SET_ROLES'
+const SET_USER = 'SET_USER'
+const SET_TOKEN = 'SET_TOKEN'
 const state = {
   token: getToken(),
   user: {},
@@ -9,13 +12,13 @@ const state = {
 }
 
 const mutations = {
-  SET_TOKEN: (state, token) => {
+  [SET_TOKEN]: (state, token) => {
     state.token = token
   },
-  SET_ROLES: (state, roles) => {
+  [SET_ROLES]: (state, roles) => {
     state.roles = roles
   },
-  SET_USER: (state, user) => {
+  [SET_USER]: (state, user) => {
     state.user = user
   }
 }
@@ -31,7 +34,7 @@ const actions = {
           if (data.errors || data.email || data.password) {
             reject(data)
           } else {
-            commit('SET_TOKEN', data.token) // 这里会覆盖掉getToken()方法，页面刷新以后，如果再从 vuex中获取Token肯定会失败
+            commit(SET_TOKEN, data.token) // 这里会覆盖掉getToken()方法，页面刷新以后，如果再从 vuex中获取Token肯定会失败
             setToken(data.token)
             resolve()
           }
@@ -51,8 +54,8 @@ const actions = {
           if (!data) {
             reject(new Error('验证失败，请重新登陆'))
           }
-          commit('SET_USER', data.user)
-          commit('SET_ROLES', data.user.roles)
+          commit(SET_USER, data.user)
+          commit(SET_ROLES, data.user.roles)
           resolve(data.user) // 这里怎么解决？哪里调用了这个函数？
         })
         .catch(error => {
@@ -66,8 +69,8 @@ const actions = {
     return new Promise((resolve, reject) => {
       logout(state.token)
         .then(() => {
-          commit('SET_TOKEN', '')
-          commit('SET_ROLES', [])
+          commit(SET_TOKEN, '')
+          commit(SET_ROLES, [])
           removeToken()
           resetRouter()
 
@@ -85,8 +88,8 @@ const actions = {
   // remove token
   resetToken({ commit }) {
     return new Promise(resolve => {
-      commit('SET_TOKEN', '')
-      commit('SET_ROLES', [])
+      commit(SET_TOKEN, '')
+      commit(SET_ROLES, [])
       removeToken()
       resolve()
     })

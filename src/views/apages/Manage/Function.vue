@@ -1,27 +1,36 @@
 <template>
-  <el-menu class="el-menu-demo" mode="horizontal" router>
-    <el-menu-item index="/judge">
+  <div>
+    <a>
+      <transition name="el-zoom-in-center">
+        <el-autocomplete
+          class="inline-input"
+          prefix-icon="el-icon-search"
+          v-if="$route.matched[2] ? $route.matched[2].path === '/judge': false"
+          placeholder="请输入内容"
+          :trigger-on-focus="false"
+        ></el-autocomplete>
+      </transition>
+    </a>
+    <router-link to="/judge">
       <el-button
         :class="$route.matched[2] ? ($route.matched[2].path === '/judge'? 'is-active':'') :''"
       >法官信息</el-button>
-    </el-menu-item>
-    <el-menu-item index="/addjudge">
+    </router-link>
+    <router-link to="/addjudge">
       <el-button
         :class="$route.matched[2] ? ($route.matched[2].path === '/addjudge'? 'is-active':'') :''"
-        size="medium"
       >
         <i class="el-icon-plus"></i>法官管理
       </el-button>
-    </el-menu-item>
-    <el-menu-item index="/addteam">
+    </router-link>
+    <router-link to="/addteam">
       <el-button
         :class="$route.matched[2] ? ($route.matched[2].path === '/addteam'? 'is-active':'') :''"
-        size="medium"
       >
         <i class="el-icon-plus"></i>团队管理
       </el-button>
-    </el-menu-item>
-  </el-menu>
+    </router-link>
+  </div>
 </template>
 <script>
 export default {

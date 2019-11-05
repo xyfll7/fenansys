@@ -9,7 +9,12 @@ const getters = {
     }
     return state.team.teams
   },
-  avatar: state => state.judge.avatar
+  judges: state => {
+    if (!state.judge.judges.length) {
+      store.dispatch('judge/getJudges')
+    }
+    return state.judge.judges
+  }
 }
 
 export default getters

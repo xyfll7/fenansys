@@ -54,7 +54,7 @@ const Add = async ctx => {
     if (err.code === 11000) {
       const { name } = ctx.request.body
       ctx.body = {
-        code: Code.SUCCESS,
+        code: Code.DATA_ALREADY_EXISTED,
         message: `"${name}"法官已经存在，请不要重复添加`
       }
     } else {
@@ -72,7 +72,17 @@ const Add = async ctx => {
  *
  * @param {*} ctx
  */
-const Get = async ctx => {}
+const Get = async ctx => {
+  try {
+    const res = await Judge.find({})
+    ctx.body = {
+      code: Code.SUCCESS,
+      data: res
+    }
+  } catch (err) {
+    console.log(err)
+  }
+}
 /**
  *
  */

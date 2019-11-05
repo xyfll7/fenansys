@@ -8,7 +8,7 @@
       :height="height"
     >
       <el-table-column label="团队名称">
-        <template slot-scope="scope">
+        <template v-slot="scope">
           <div @dblclick="editTeam(scope.$index, scope.row ,$event)">
             <i v-if="editIndex+1 === scope.$index+1 ? false : true " class="ico icon-tuandui"></i>
             <span
@@ -29,7 +29,7 @@
         </template>
       </el-table-column>
       <el-table-column label="团队成员">
-        <template slot-scope="scope">
+        <template v-slot="scope">
           <el-popover trigger="hover" placement="top">
             <p>团队: {{ scope.row.name }}</p>
             <p>成员: {{ scope.row.members | membersPopover }}</p>
@@ -50,7 +50,7 @@
             </div>
           </el-popover>
         </template>
-        <template slot-scope="scope">
+        <template v-slot="scope">
           <el-button
             v-if="editIndex+1 === scope.$index+1 ? false : true "
             size="mini"
@@ -110,23 +110,23 @@ export default {
     }
   },
   filters: {
-    members (value) {
+    members (val) {
       let str = ''
-      if (!value.length) {
+      if (!val.length) {
         str = '~~团中没有成员~~'
         return str
       }
 
-      value.forEach(item => { str += `${item.name}、` })
+      val.forEach(item => { str += `${item.name}、` })
       return str.substr(0, str.length - 1)
     },
-    membersPopover (value) {
+    membersPopover (val) {
       let str = ''
-      if (!value.length) {
+      if (!val.length) {
         str = '~~团中没有成员~~'
         return str
       }
-      value.forEach(item => { str += `${item.name}、` })
+      val.forEach(item => { str += `${item.name}、` })
       return str.substr(0, str.length - 1)
     }
   },

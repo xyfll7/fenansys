@@ -3,7 +3,7 @@
   border-bottom-width: 0px !important;
 }
 
-.el-menu-item {
+/* .el-menu-item {
   border-bottom-width: 0px !important;
   margin: 0 5px 0 5px !important;
   padding: 0px;
@@ -16,7 +16,7 @@
 .el-menu-item.is-active {
   background: rgba(0, 0, 0, 0) !important;
   border-bottom-width: 0px !important;
-}
+} */
 
 .is-active {
   color: #409eff;
