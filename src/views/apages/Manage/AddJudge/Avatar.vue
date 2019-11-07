@@ -22,11 +22,12 @@
 </template>
 <script>
 import { Bus, ADDJUDGE } from '@/utils/bus'
+import { store, mutations } from './store'
 export default {
   name: 'Avatar',
   data () {
     const checkAvatar = (rule, value, callback) => {
-      if (this.avatarURL) {
+      if (this.avatarUrl) {
         callback()
       }
       callback(new Error(this.message))
@@ -40,14 +41,17 @@ export default {
           { required: true, validator: checkAvatar }
         ]
       },
-      avatarURL: '',
       message: ''
     }
   },
+  computed: {
+    avatarUrl () {
+      return store.avatarUrl
+    }
+  },
+
   created () {
-    Bus.$on(ADDJUDGE.VALIDATE, (avatarURL) => {
-      console.log(avatarURL)
-      this.avatarURL = avatarURL
+    Bus.$on(ADDJUDGE.VALIDATE, () => {
       this.validate()
     })
     Bus.$on(ADDJUDGE.RESETFORM, () => {
@@ -60,6 +64,7 @@ export default {
     })
   },
   methods: {
+    setAvatar: mutations.setAvatar,
     validate () {
       this.message = '法官照片不能为空'
       this.$refs['ruleForm'].validate(() => { })
@@ -72,6 +77,8 @@ export default {
       this.resetform()
       console.log(res.filename)
       Bus.$emit(ADDJUDGE.AVATAR, { avatarURL: res.filename })
+      this.setAvatar(res.filename)
+      console.log('bbbb', store.avatarUrl)
       this.imageUrl = URL.createObjectURL(file.raw)
     },
 

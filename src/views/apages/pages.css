@@ -51,6 +51,7 @@
 
 .el-table /deep/ .el-table__body-wrapper::-webkit-scrollbar {
   width: 7px;
+  height: 8px;
 }
 
 .el-table /deep/ .el-table__body-wrapper::-webkit-scrollbar-thumb {

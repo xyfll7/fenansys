@@ -5,13 +5,13 @@ const getters = {
   roles: state => state.user.roles,
   teams: state => {
     if (!state.team.teams.length) {
-      store.dispatch('team/getTeams')
+      store.dispatch('getTeams')
     }
     return state.team.teams
   },
   judges: state => {
     if (!state.judge.judges.length) {
-      store.dispatch('judge/getJudges')
+      store.dispatch('getJudges')
     }
     return state.judge.judges
   }

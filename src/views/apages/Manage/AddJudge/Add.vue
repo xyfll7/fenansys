@@ -68,9 +68,14 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import { store } from './store'
 import dcopy from 'deep-copy'
 import { Bus, ADDJUDGE } from '@/utils/bus'
-const team = { _id: '', name: '', numberOfCasesHandled: [null, null, null, null, null, null, null, null, null, null, null, null] }
+const team = {
+  _id: '',
+  name: '',
+  numberOfCasesHandled: [null, null, null, null, null, null, null, null, null, null, null, null]
+}
 export default {
   name: 'Add',
   data () {
@@ -124,13 +129,13 @@ export default {
       nameError: '',
       storeTeams: [],
       ruleForm: {
+        avatar: store.avatarUrl || '99287',
         name: '闰土',
         position: '渔民',
         tel: undefined || 19978663462,
         office: '渔村',
         proportion: 1,
-        teams: [dcopy(team)],
-        avatar: '994'
+        teams: [dcopy(team)]
       },
       rules: {
         name: [{ required: true, validator: checkName, trigger: 'blur' }],
@@ -144,13 +149,6 @@ export default {
   },
   computed: {
     ...mapGetters(['teams'])
-  },
-  created () {
-    this.storeTeams = dcopy(this.teams)
-    Bus.$on(ADDJUDGE.AVATAR, ({ avatarURL }) => {
-      console.log('SS', avatarURL)
-      this.ruleForm.avatar = avatarURL
-    })
   },
   watch: {
     'ruleForm.teams': {
@@ -166,7 +164,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['judge/addJudge']),
+    ...mapActions(['addJudge']),
     addTeam () {
       const len = this.ruleForm.teams.length
       if (len < 4) {
@@ -191,12 +189,13 @@ export default {
     submitForm (formName) {
       // 清空姓名错误信息
       this.nameError = ''
+      this.ruleForm.avatar = store.avatarUrl
       // 调用Avatar.vue 的 validate 方法验证头是否填写正确。
-      Bus.$emit(ADDJUDGE.VALIDATE, this.ruleForm.avatar)
+      Bus.$emit(ADDJUDGE.VALIDATE)
       this.$refs[formName].validate(async valid => {
         if (valid && this.ruleForm.avatar) {
           try {
-            await this['judge/addJudge'](this.ruleForm)
+            await this['addJudge'](this.ruleForm)
             this.success = true
             Bus.$emit(ADDJUDGE.SUCCESS)
           } catch (err) {
@@ -220,6 +219,9 @@ export default {
     clear () {
       this.nameError = ''
     }
+  },
+  created () {
+    this.storeTeams = dcopy(this.teams)
   }
 }
 </script>

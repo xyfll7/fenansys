@@ -24,13 +24,13 @@
             v-model="text"
             :class="prompt? 'prompt': ''"
             @focus="clearDuplicate(scope.row.name)"
-            @keyup.enter.native="updateTeam(scope.$index, scope.row,$event)"
+            @keyup.enter.native="_updateTeam(scope.$index, scope.row,$event)"
           ></el-input>
         </template>
       </el-table-column>
       <el-table-column label="团队成员">
         <template v-slot="scope">
-          <el-popover trigger="hover" placement="top">
+          <el-popover trigger="hover" placement="top" width="280">
             <p>团队: {{ scope.row.name }}</p>
             <p>成员: {{ scope.row.members | membersPopover }}</p>
             <div slot="reference" class="name-wrapper">
@@ -61,14 +61,14 @@
             v-if="editIndex+1 !== scope.$index+1 ? true: false "
             size="mini"
             type="danger"
-            @click="deleteTeam(scope.$index, scope.row)"
+            @click="_deleteTeam(scope.$index, scope.row)"
             :disabled="scope.row.members.length ? true: false"
           >删除</el-button>
           <el-button
             v-if="editIndex+1 === scope.$index+1 ? true: false "
             size="mini"
             type="primary"
-            @click="updateTeam(scope.$index, scope.row, $event)"
+            @click="_updateTeam(scope.$index, scope.row, $event)"
           >保存</el-button>
           <el-button
             v-if="editIndex+1 === scope.$index+1 ? true: false"
@@ -140,19 +140,19 @@ export default {
   },
   methods: {
     ...mapActions([
-      'team/deleteTeam',
-      'team/updateTeam'
+      'deleteTeam',
+      'updateTeam'
     ]),
     editTeam (index, row, event) {
       event.stopPropagation()
       this.editIndex = index
       this.name = ''
     },
-    deleteTeam (index, row) {
+    _deleteTeam (index, row) {
       const _id = { _id: row._id }
-      this['team/deleteTeam']({ _id, index })
+      this.deleteTeam({ _id, index })
     },
-    async updateTeam (index, row, event) {
+    async _updateTeam (index, row, event) {
       event.stopPropagation()
       if (this.name === '') {
         this.editIndex = undefined
@@ -162,7 +162,7 @@ export default {
       const team = dcopy(row)
       team.name = this.name
       try {
-        const res = await this['team/updateTeam']({ team, index })
+        const res = await this['updateTeam']({ team, index })
         if (res.data) {
           this.editIndex = undefined
         }

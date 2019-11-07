@@ -15,12 +15,20 @@
 <script>
 import AFunction from '@/views/AFunction'
 import AMain from '@/views/AMain'
+import { mapActions } from 'vuex'
 export default {
   name: 'Manage',
   components: {
     AFunction,
     AMain,
     Function: () => import('./Function')
+  },
+  created () {
+    this.getTeams()
+    this.getJudges()
+  },
+  methods: {
+    ...mapActions(['getTeams', 'getJudges'])
   }
 }
 </script>

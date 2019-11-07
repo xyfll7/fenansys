@@ -2,9 +2,12 @@ import { login, logout, getUserInfo } from '@/store/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
-const SET_ROLES = 'SET_ROLES'
-const SET_USER = 'SET_USER'
-const SET_TOKEN = 'SET_TOKEN'
+import {
+  SET_ROLES, // 用户权限
+  SET_USER, // 用户信息
+  SET_TOKEN // Token
+} from './types'
+
 const state = {
   token: getToken(),
   user: {},

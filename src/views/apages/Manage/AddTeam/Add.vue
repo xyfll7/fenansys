@@ -4,10 +4,10 @@
       <el-input
         v-model="input"
         @focus="onfocus"
-        @keyup.enter.native="addTeam"
+        @keyup.enter.native="_addTeam"
         placeholder="请输入团队名称"
       />
-      <el-button type="primary" @click="addTeam">添加</el-button>
+      <el-button type="primary" @click="_addTeam">添加</el-button>
       <br />
       <span :class="prompt">{{ promptText }}</span>
     </div>
@@ -27,12 +27,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['team/addTeam']),
-    async addTeam () {
+    ...mapActions(['addTeam']),
+    async _addTeam () {
       if (this.input !== '') {
         const team = { name: this.input }
         try {
-          await this['team/addTeam'](team)
+          await this['addTeam'](team)
           this.input = ''
         } catch (err) {
           this.promptText = err.message

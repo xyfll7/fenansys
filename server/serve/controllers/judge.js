@@ -30,11 +30,7 @@ const Add = async ctx => {
 
   try {
     // https://docs.mongodb.com/master/core/transactions/#general-information
-    await session.startTransaction({
-      readPreference: 'primary',
-      readConcern: { level: 'snapshot' },
-      writeConcern: { w: 'majority' }
-    })
+    await session.startTransaction({ readPreference: 'primary', readConcern: { level: 'snapshot' }, writeConcern: { w: 'majority' } })
     const [judge0] = await Judge.create([judge], { session })
     const { name, _id } = judge0
     const update = { $addToSet: { members: { name, _id } } }
@@ -90,7 +86,43 @@ const Update = async ctx => {}
 /**
  * @param {*} ctx
  */
-const Delete = async ctx => {}
+const Delete = async ctx => {
+  const session = await DB.startSession()
+  const judge = ctx.request.body
+  const { teams, name, _id } = judge
+  const filters = {
+    $or: teams.map(team => {
+      const { _id } = team
+      return { _id }
+    })
+  }
+  try {
+    // https://docs.mongodb.com/master/core/transactions/#general-information
+    await session.startTransaction({ readPreference: 'primary', readConcern: { level: 'snapshot' }, writeConcern: { w: 'majority' } })
+    const { deletedCount } = await Judge.deleteOne({ _id }, { session })
+    const update = { $pull: { members: { name, _id } } }
+    const { nModified } = await Team.updateMany(filters, update, { session })
+    if (nModified === teams.length && deletedCount) {
+      ctx.body = {
+        code: Code.SUCCESS,
+        data: judge
+      }
+      await session.commitTransaction()
+    } else {
+      throw new Error('删除法官失败，请重试')
+    }
+  } catch (err) {
+    console.log(err)
+    await session.abortTransaction()
+    const { message } = err
+    ctx.body = {
+      code: Code.BUSINESS_ERROR,
+      message
+    }
+  } finally {
+    await session.endSession()
+  }
+}
 
 module.exports = {
   Test,

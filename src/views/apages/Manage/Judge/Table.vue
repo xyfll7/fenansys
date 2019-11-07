@@ -11,8 +11,12 @@
     <el-table-column prop="proportion" label="分案比例"></el-table-column>
     <el-table-column prop="address" label="本轮剩余"></el-table-column>
     <el-table-column prop="address" label="本轮状态"></el-table-column>
-    <el-table-column prop="address" label="本月分案数"></el-table-column>
-    <el-table-column label="所属团队" width="300">
+    <el-table-column label="本月分案数">
+      <template v-slot="scope">
+        <p>{{scope.row.teams | numberOfCasesHandledFilter }}</p>
+      </template>
+    </el-table-column>
+    <el-table-column label="所属团队[办案数量]" width="300">
       <template v-slot="scope">
         <el-tag size="medium">{{ scope.row.teams | teamsFilter }}</el-tag>
       </template>
@@ -34,7 +38,12 @@
       </template>
       <template v-slot="scope">
         <el-button v-if="editIndex+1 !== scope.$index+1 ? true : false" size="mini">编辑</el-button>
-        <el-button v-if="editIndex+1 !== scope.$index+1 ? true : false" size="mini" type="danger">删除</el-button>
+        <el-button
+          v-if="editIndex+1 !== scope.$index+1 ? true : false"
+          size="mini"
+          type="danger"
+          @click="_deleteJudge(scope.$index, scope.row)"
+        >删除</el-button>
         <el-button
           v-if="editIndex+1 === scope.$index+1 ? true : false"
           type="primary"
@@ -46,14 +55,14 @@
   </el-table>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import autoHeight from '@/views/mixins/autoHeight'
 export default {
   name: 'Table',
   mixins: [autoHeight],
   data () {
     return {
-      subHeight: 196,
+      subHeight: 197,
       editIndex: undefined
     }
   },
@@ -61,10 +70,32 @@ export default {
     ...mapGetters(['judges'])
   },
   filters: {
-    teamsFilter (val) {
+    teamsFilter: function (val) {
       let str = ''
-      val.forEach(team => { str += `${team.name}、` })
+      val.forEach(team => {
+        let sum = 0
+        team.numberOfCasesHandled.forEach(num => { if (num) { sum += num } })
+        str += `${team.name}[${sum}]、`
+      })
       return str.substr(0, str.length - 1)
+    },
+    numberOfCasesHandledFilter (val) {
+      let sum = 0
+      val.forEach(team => {
+        team.numberOfCasesHandled.forEach(num => {
+          if (num) {
+            sum += num
+          }
+        })
+      })
+      return sum
+    }
+  },
+  methods: {
+    ...mapActions(['deleteJudge']),
+    _deleteJudge (index, row) {
+      const judge = row
+      this.deleteJudge({ judge, index })
     }
   }
 }
