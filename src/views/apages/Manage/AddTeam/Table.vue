@@ -4,6 +4,7 @@
       :row-style="{ background: 'rgba(0, 0, 0, 0)' }"
       :header-row-style="{ background: 'rgba(0, 0, 0, 0)' }"
       :header-cell-style="{ background: 'rgba(0, 0, 0, 0)' }"
+      v-loading="loading"
       :data="teams"
       :height="height"
     >
@@ -89,7 +90,8 @@ export default {
   mixins: [autoHeight],
   data () {
     return {
-      subHeight: 407, // mixins/autoHeight 自定义参数
+      loading: true,
+      subHeight: 400, // mixins/autoHeight 自定义参数
       editIndex: undefined,
       prompt: false, // 编辑输入框错误提示（边框颜色改变）
       name: '',
@@ -107,6 +109,16 @@ export default {
       set (value) {
         this.name = value
       }
+    }
+  },
+  watch: {
+    teams: {
+      handler (val) {
+        if (val.length) {
+          this.loading = false
+        }
+      },
+      immediate: true
     }
   },
   filters: {
@@ -180,8 +192,8 @@ export default {
     cancel (e) {
       if (e.target && e.target.className === 'el-input__inner') return
       this.editIndex = undefined
-      this.duplicate = ''
-      this.prompt = false
+      this.duplicate = '' // 重复提示
+      this.prompt = false // ⚠️警告色不显示
     }
   }
 }

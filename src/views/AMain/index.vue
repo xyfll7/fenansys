@@ -10,7 +10,7 @@ export default {
   mixins: [autoHeight],
   data () {
     return {
-      subHeight: 153
+      subHeight: 146
     }
   }
 }

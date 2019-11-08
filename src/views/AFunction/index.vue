@@ -10,7 +10,7 @@ export default {
 </script>
 <style scoped>
 .centerxy {
-  padding: 10px 0 10px 0;
+  padding: 7px 0 7px 0;
 }
 .centerxy /deep/ a {
   margin: 0 5px 0 5px;

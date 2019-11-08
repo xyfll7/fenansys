@@ -18,6 +18,7 @@
             autocomplete="off"
             placeholder="请输入密码"
             prefix-icon="el-icon-key"
+            show-password
           ></el-input>
         </el-form-item>
         <el-form-item>

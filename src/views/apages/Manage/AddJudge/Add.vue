@@ -27,7 +27,7 @@
       <div v-for="(team, index) in ruleForm.teams" :key="index" style="display:flex">
         <el-form-item :label="`办案团队[${index+1}]`" :prop="`team${index}`">
           <el-input
-            v-model.number="team.numberOfCasesHandled[new Date().getMonth()]"
+            v-model.number="team.numberOfCasesHandled[0]"
             placeholder="初始办案数量"
             :disabled="success"
           >
@@ -50,8 +50,8 @@
           </el-input>
         </el-form-item>
         <i style="margin-left:10px">
-          <el-button v-if="index !== 0" @click.prevent="removeTeam(index)">删除</el-button>
-          <el-button v-if="index === 0" @click.prevent="addTeam()" :disabled="success">添加</el-button>
+          <el-button v-if="index === 0" @click.prevent="addTeam" :disabled="success">添加</el-button>
+          <el-button v-if="index !== 0" @click.prevent="removeTeam(index)" :disabled="success">删除!</el-button>
         </i>
       </div>
       <!-- 办案团队⬆⬆⬆ -->
@@ -68,14 +68,9 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { store } from './store'
+import { store, team } from './store'
 import dcopy from 'deep-copy'
 import { Bus, ADDJUDGE } from '@/utils/bus'
-const team = {
-  _id: '',
-  name: '',
-  numberOfCasesHandled: [null, null, null, null, null, null, null, null, null, null, null, null]
-}
 export default {
   name: 'Add',
   data () {
@@ -107,7 +102,7 @@ export default {
       const i = parseInt(rule.field.charAt(rule.field.length - 1))
       let isVlidate = true
       let message = ''
-      const val = this.ruleForm.teams[i].numberOfCasesHandled[new Date().getMonth()]
+      const val = this.ruleForm.teams[i].numberOfCasesHandled[0]
       if (this.ruleForm.teams[i].name === '') {
         message = '团队不能为空'
       }
@@ -222,6 +217,7 @@ export default {
   },
   created () {
     this.storeTeams = dcopy(this.teams)
+    console.log('SSSSSSSSS')
   }
 }
 </script>
