@@ -1,22 +1,34 @@
 <template>
   <div class="centerxy">
     <div class="main">
-      <a>
-        <el-autocomplete
-          class="inline-input"
-          prefix-icon="el-icon-search"
-          placeholder="请输入内容"
-          :trigger-on-focus="false"
-          :size="functionButtonSize"
-        ></el-autocomplete>
-      </a>
+      <transition name="el-zoom-in-center">
+        <a v-if="isActive('/table')">
+          <el-autocomplete
+            prefix-icon="el-icon-search"
+            placeholder="请输入内容"
+            :trigger-on-focus="false"
+            :size="functionButtonSize"
+            :round="round"
+          ></el-autocomplete>
+        </a>
+      </transition>
       <router-link to="/table">
-        <el-button :class="{'is-active': isActive('/table')}" :size="functionButtonSize" plain>
+        <el-button
+          :class="{'is-active': isActive('/table')}"
+          :size="functionButtonSize"
+          :round="round"
+          plain
+        >
           <i class="el-icon-plus"></i>法官信息
         </el-button>
       </router-link>
       <router-link to="/addjudge">
-        <el-button :class="{'is-active': isActive('/addjudge')}" :size="functionButtonSize" plain>
+        <el-button
+          :class="{'is-active': isActive('/addjudge')}"
+          :size="functionButtonSize"
+          :round="round"
+          plain
+        >
           <i class="el-icon-plus"></i>新增法官
         </el-button>
       </router-link>
@@ -25,13 +37,14 @@
 </template>
 <script>
 import isActive from '@/views/mixins/isActive'
-import { functionButtonSize } from '@/settings'
+// import { functionButtonSize } from '@/settings'
 export default {
   name: 'Function',
   mixins: [isActive],
   data () {
     return {
-      functionButtonSize
+      functionButtonSize: 'small',
+      round: true
     }
   },
   methods: {
@@ -47,5 +60,8 @@ a {
 }
 .main {
   padding-bottom: 20px;
+}
+.el-autocomplete /deep/ .el-input__inner {
+  border-radius: 20px;
 }
 </style>
