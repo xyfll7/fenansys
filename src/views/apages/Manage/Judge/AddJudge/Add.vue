@@ -107,7 +107,7 @@ export default {
       }
       if (!(typeof val === 'number' && !isNaN(val))) {
         if (message) message += '\xa0\xa0\xa0\xa0'
-        message += ' 初始办案数量必须填写且必须为数字值'
+        message += '初始办案数量必须填写且必须为数字值'
       }
 
       if (message) {

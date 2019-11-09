@@ -29,7 +29,7 @@
           <transition name="el-zoom-in-center">
             <div v-if="editIndex +1 === scope.$index+1">
               <!-- 表单验证 -->
-              <el-form :model="{}" :rules="rules" ref="ruleForm">
+              <el-form :model="{}" :rules="rules" :ref="`storeJudges${scope.$index}`">
                 <div v-for="(team, index) in storeJudges.teams" :key="index" style="display:flex">
                   <el-tag
                     class="error-message"
@@ -113,7 +113,7 @@
             v-if="editIndex+1 === scope.$index+1 ? true : false"
             type="primary"
             size="mini"
-            @click="test"
+            @click="submitForm(scope.$index, scope.row)"
           >保存</el-button>
           <el-button
             v-if="editIndex+1 === scope.$index+1 ? true : false"
@@ -144,9 +144,8 @@ export default {
       }
       if (!(typeof val === 'number' && !isNaN(val))) {
         if (message) message += '\xa0\xa0\xa0\xa0'
-        message += '初始办案数量必须为数字'
+        message += '初始办案数量必须为数字,如果没有则填0'
       }
-
       if (message) {
         this.rules[rule.field][0].message = message
         this.$forceUpdate() // 当采用特殊方法操作数组后，导致无法更新数据到UI，此时可使用强制渲染
@@ -170,7 +169,6 @@ export default {
   },
   created () {
     this.storeTeams = [...dcopy(this.teams)] // 在autoRemoveSelectedTeam 中还会刷新这个值
-    console.log(this.teams)
   },
   computed: {
     ...mapGetters(['judges', 'teams'])
@@ -230,8 +228,24 @@ export default {
       this.editIndex = index
       // 不能直接编辑vuex,所以点击编辑按钮的时候,拷贝当前行的法官信息,就可以在组件内编辑了。
       this.storeJudges = dcopy(row)
+      console.log('xxxx')
       // 拷贝完法官信息以后，还要根据法官所属团队数量，向团队添加验证器
       this.storeJudges.teams.forEach((_, index) => { this.rules[`team${index}`] = [...dcopy(this.rules.team)] })
+    },
+    submitForm (index, row) {
+      this.$nextTick(() => {
+        this.$refs[`storeJudges${index}`].validate(valid => {
+          if (valid) {
+            try {
+              this.editIndex = undefined
+            } catch (err) {
+            }
+          } else {
+            console.log('error submit!!')
+            return false
+          }
+        })
+      })
     },
     cancel () {
       this.editIndex = undefined
