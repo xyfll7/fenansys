@@ -14,16 +14,16 @@ const state = {
 
 const mutations = {
   [TEAMS_SET](state, teams) {
-    state.teams = teams
+    state.teams = [...teams]
   },
   [TEAM_ADD](state, team) {
-    state.teams.push(team)
+    state.teams.push({ ...team })
   },
   [TEAM_DELETE](state, index) {
     state.teams.splice(index, 1)
   },
   [TEAM_UPDATE](state, { team, index }) {
-    state.teams[index] = team
+    state.teams[index] = { ...team }
   },
   // 新增法官以后 给团队添加法官
   [TEAM_ADD_JUDGE](state, judge) {

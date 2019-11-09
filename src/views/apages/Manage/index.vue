@@ -5,7 +5,7 @@
     </AFunction>
     <AMain>
       <transition name="fade-transform" mode="out-in">
-        <keep-alive include="AddJudge">
+        <keep-alive include="Judge">
           <router-view />
         </keep-alive>
       </transition>

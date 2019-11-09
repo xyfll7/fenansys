@@ -77,19 +77,28 @@ export const constantRoutes = [
             path: '/judge',
             name: 'judge',
             meta: { title: '法官信息' },
-            component: () => import('@/views/apages/Manage/Judge')
-          },
-          {
-            path: '/addjudge',
-            name: 'addjudge',
-            meta: { title: '新增法官' },
-            component: () => import('@/views/apages/Manage/AddJudge')
+            component: () => import('@/views/apages/Manage/Judge'),
+            redirect: '/table',
+            children: [
+              {
+                path: '/addjudge',
+                name: 'addjudge',
+                meta: { title: '新增法官' },
+                component: () => import('@/views/apages/Manage/Judge/AddJudge')
+              },
+              {
+                path: '/table',
+                name: 'table',
+                meta: { title: '新增法官' },
+                component: () => import('@/views/apages/Manage/Judge/Table')
+              }
+            ]
           },
           {
             path: '/addteam',
             name: 'addteam',
             meta: { title: '新增团队' },
-            component: () => import('@/views/apages/Manage/AddTeam')
+            component: () => import('@/views/apages/Manage/Team')
           }
         ]
       }
