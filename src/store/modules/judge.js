@@ -1,5 +1,10 @@
-import { addJudge, getJudges, deleteJudge } from '@/store/api/judge'
 import store from '@/store'
+import {
+  addJudge, // 新增法官
+  getJudges, //  获取全部法官
+  deleteJudge, // 删除法官
+  updateJudge // 更新法官
+} from '@/store/api/judge'
 
 import {
   JUDGES_SET,
@@ -58,6 +63,15 @@ const actions = {
       return res
     } catch (err) {
       console.log(err)
+    }
+  },
+  async updateJudge({ commit }, { judge, index }) {
+    try {
+      const res = await updateJudge(judge)
+      const { data } = res
+      commit(JUDGE_UPDATE, { judge: data, index })
+    } catch (err) {
+      console.log('updateJudge', err)
     }
   }
 }

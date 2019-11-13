@@ -219,7 +219,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['deleteJudge']),
+    ...mapActions(['deleteJudge', 'updateJudge']),
     _deleteJudge (index, row) {
       const judge = row
       this.deleteJudge({ judge, index })
@@ -232,10 +232,13 @@ export default {
       this.storeJudges.teams.forEach((_, index) => { this.rules[`team${index}`] = [...dcopy(this.rules.team)] })
     },
     submitForm (index, row) {
-      this.$refs['storeJudges'].validate((valid) => {
+      this.$refs['storeJudges'].validate(async (valid) => {
         if (valid) {
+          const judge = this.storeJudges
+          await this.updateJudge({ judge, index })
           console.log(this.storeJudges)
           console.log(row)
+          // 对比编辑前后的团队数据，找出被删除的团队
           this.editIndex = undefined // 将编辑索引设置为undefined就会取消编辑状态
         } else {
           console.log('error submit!!')

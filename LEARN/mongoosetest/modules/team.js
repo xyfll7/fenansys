@@ -11,7 +11,7 @@ const TeamSchema = new mongoose.Schema({
   members: [
     {
       type: ObjectId,
-      ref: 'judges'
+      ref: 'judge'
     }
   ]
   //  [
@@ -22,4 +22,4 @@ const TeamSchema = new mongoose.Schema({
   // ]
 })
 
-module.exports = mongoose.model('teams', TeamSchema)
+module.exports = mongoose.model('team', TeamSchema)

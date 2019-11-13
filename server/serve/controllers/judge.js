@@ -18,16 +18,11 @@ const Test = async ctx => {
  * @param {*} ctx
  */
 const Add = async ctx => {
-  const session = await DB.startSession()
   const judge = ctx.request.body
   const { teams } = judge
-  const filters = {
-    $or: teams.map(team => {
-      const { _id } = team
-      return { _id }
-    })
-  }
-
+  // 构造法官所属团队_id过滤器
+  const filters = { $or: [...teams.map(team => ({ _id: team._id }))] }
+  const session = await DB.startSession()
   try {
     // https://docs.mongodb.com/master/core/transactions/#general-information
     await session.startTransaction({ readPreference: 'primary', readConcern: { level: 'snapshot' }, writeConcern: { w: 'majority' } })
@@ -82,7 +77,47 @@ const Get = async ctx => {
 /**
  *
  */
-const Update = async ctx => {}
+const Update = async ctx => {
+  const judge = ctx.request.body
+  const { _id, name } = judge
+  const session = await DB.startSession()
+  try {
+    await session.startTransaction({ readPreference: 'primary', readConcern: { level: 'snapshot' }, writeConcern: { w: 'majority' } })
+    // 一、更新法官,并返回旧的法官
+    const oldJudge = await Judge.findByIdAndUpdate(_id, judge, { session })
+    // 二、对比新旧法官，找到删除了的法官所属团队 在相应的团队中删除法官
+    const deleteJudge = { $pull: { members: { name, _id } } }
+    const { deletedTeamsFilter, deletedlength } = Judge.deletedTeamsFilter(judge.teams, oldJudge.teams)
+    if (deletedlength > 0) {
+      const { nModified } = await Team.updateMany(deletedTeamsFilter, deleteJudge, { session })
+      if (nModified !== deletedlength) {
+        throw new Error('更新法官信息失败！请重试')
+      }
+    }
+    // 三、对比新旧法官，找到新增了的法官所属团队 在相应的团队中添加法官
+    const addJudge = { $addToSet: { members: { name, _id } } }
+    const { addedTeamsFilter, addedlength } = Judge.addedTeamsFilter(judge.teams, oldJudge.teams)
+    if (addedlength > 0) {
+      const { nModified } = await Team.updateMany(addedTeamsFilter, addJudge, { session })
+      if (addedlength !== nModified) {
+        throw new Error('更新法官信息失败！请重试')
+      }
+    }
+    await session.commitTransaction()
+    ctx.body = {
+      code: Code.SUCCESS,
+      data: judge
+    }
+  } catch (err) {
+    await session.abortTransaction()
+    ctx.body = {
+      code: Code.BUSINESS_ERROR,
+      message: err.message
+    }
+  } finally {
+    await session.endSession()
+  }
+}
 /**
  * @param {*} ctx
  */
@@ -90,34 +125,31 @@ const Delete = async ctx => {
   const session = await DB.startSession()
   const judge = ctx.request.body
   const { teams, name, _id } = judge
-  const filters = {
-    $or: teams.map(team => {
-      const { _id } = team
-      return { _id }
-    })
-  }
   try {
     // https://docs.mongodb.com/master/core/transactions/#general-information
     await session.startTransaction({ readPreference: 'primary', readConcern: { level: 'snapshot' }, writeConcern: { w: 'majority' } })
+    // 一、删除法官
     const { deletedCount } = await Judge.deleteOne({ _id }, { session })
+    // 二、找到法官的所属团队
+    const filters = {
+      $or: [...teams.map(team => ({ _id: team._id }))]
+    }
+    // 三、在相应团队中删除法官
     const update = { $pull: { members: { name, _id } } }
-    const { nModified } = await Team.updateMany(filters, update, { session })
-    if (nModified === teams.length && deletedCount) {
-      ctx.body = {
-        code: Code.SUCCESS,
-        data: judge
-      }
-      await session.commitTransaction()
-    } else {
+    const { nModified } = await Team.updateMany(filters, update, { session }) // 在相应的团队中删除法官
+    if (nModified !== teams.length && !deletedCount) {
       throw new Error('删除法官失败，请重试')
     }
+    await session.commitTransaction()
+    ctx.body = {
+      code: Code.SUCCESS,
+      data: judge
+    }
   } catch (err) {
-    console.log(err)
     await session.abortTransaction()
-    const { message } = err
     ctx.body = {
       code: Code.BUSINESS_ERROR,
-      message
+      message: err.message
     }
   } finally {
     await session.endSession()

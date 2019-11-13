@@ -82,7 +82,8 @@ const actions = {
   async updateTeam({ commit }, { team, index }) {
     try {
       const res = await updateTeam(team)
-      commit(TEAM_UPDATE, { team: res.data, index })
+      const { data } = res
+      commit(TEAM_UPDATE, { team: data, index })
       return res
     } catch (err) {
       console.log('err0', err)
