@@ -3,8 +3,8 @@
 ```js
 db.createUser(
   {
-    user: "xyfll7",
-    pwd: "yangqi77",
+    user: "xyf",
+    pwd: "yangqi7'",
     roles: [ "root" ]
   }
 )
