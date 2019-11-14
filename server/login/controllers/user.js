@@ -27,13 +27,13 @@ const Register = async ctx => {
     return
   }
 
-  let { name, email, password } = ctx.request.body
+  let { name, email, password, roles, avatar } = ctx.request.body
   const findResult = await User.find({ email })
   if (findResult.length > 0) {
     ctx.status = 500
     ctx.body = { email: '邮箱已被占用' }
   } else {
-    const user = new User({ name, email, password })
+    const user = new User({ name, email, password, roles, avatar })
     ctx.body = await user.save()
   }
 }

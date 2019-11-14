@@ -30,10 +30,11 @@ Content-Type: application/json
 
 {
     "name": "sssss",
-    "email": "l.7@qq.com",
+    "email": "l.78@qq.com",
     "password": "yangqi77",
     "password2": "yangqi77",
-    "avatar":"头像地址"
+    "avatar":"头像地址",
+    "roles": ["root","aa"]
 }
 
 

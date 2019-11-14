@@ -23,9 +23,9 @@ const UserSchema = new Schema({
   avatar: {
     type: String
   },
-  permission: {
-    type: String,
-    default: 'user'
+  roles: {
+    type: Array,
+    default: ['user']
   },
   date: {
     type: String,
