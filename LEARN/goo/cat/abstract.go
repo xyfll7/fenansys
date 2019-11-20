@@ -11,7 +11,7 @@ type Account struct {
 	Balance     float64
 }
 
-// 存款
+// 存款aaa
 func (ac *Account) Deposit(money float64, pwd string) {
 	// 查款密码是否正确
 	if pwd != ac.Pwd {
