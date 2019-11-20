@@ -1,24 +1,22 @@
 {
-  "name": "tsserver",
-  "version": "1.0.0",
+  "name": "haluoxyf",
+  "version": "1.0.4",
   "description": "ts-koa",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "author": "xyf",
   "license": "MIT",
   "scripts": {
     "start": "yarn serve",
-    "serve": "node dist/server.js",
+    "serve": "nodemon dist/server.js",
     "build": "yarn tslint && yarn build-ts",
     "build-ts": "tsc",
     "watch": "yarn tslint && yarn watch-ts",
     "watch-ts": "tsc -w",
     "tslint": "tslint -c tslint.json -p tsconfig.json"
   },
-  "dependencies": {
-    "koa": "^2.11.0"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@types/koa": "^2.0.52",
     "tslint": "^5.20.1",
     "typescript": "^3.7.2"
   }

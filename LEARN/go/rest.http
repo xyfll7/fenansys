@@ -1,0 +1,4 @@
+@host=http://localhost:2499
+
+###
+GET {{host}}/api/test
