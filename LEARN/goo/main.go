@@ -47,6 +47,7 @@ func main() {
 	var student = cat.NewStudents("阿黄", 99) // 工厂模式
 	fmt.Println(student.GetScore())
 	cat.Test()
+	cat.InterfaceTest()
 }
 
 // 工厂模式、抽象 abstract
