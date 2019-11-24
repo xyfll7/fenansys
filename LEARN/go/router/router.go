@@ -1,12 +1,13 @@
 package router
 
 import (
+	"github.com/business/database"
 	"github.com/business/router/ctl"
 
 	"github.com/gin-gonic/gin"
 )
 
-func Init() *gin.Engine {
+func Init(db *database.Client) *gin.Engine {
 	r := gin.Default()
 	sv := r.Group("/api")
 	{
